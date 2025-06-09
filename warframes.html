@@ -55,14 +55,14 @@
 
     <main id="main-content" role="main">
         <section class="page-header" role="banner" aria-labelledby="page-title">
-            <h1 id="page-title">Warframes Disponibles</h1>
+            <h2 id="page-title">Warframes Disponibles</h2>
             <p>Descubre los diferentes Warframes y sus habilidades únicas</p>
         </section>
 
         <section class="filters" 
                  role="search" 
                  aria-labelledby="filters-title">
-            <h2 id="filters-title" class="sr-only">Filtros de Búsqueda</h2>
+            <h2 id="filters-title">Filtros de Búsqueda</h2>
             <div class="filter-container">
                 <label for="warframe-type">Filtrar por tipo:</label>
                 <select id="warframe-type" 
@@ -100,12 +100,47 @@
             </div>
         </section>
 
+        <!-- ✅ CATEGORÍAS ESPECÍFICAS DE WARFRAMES -->
+        <section class="warframes-categories" 
+                 role="region" 
+                 aria-labelledby="categories-title">
+            <h2 id="categories-title">Categorías de Warframes</h2>
+            
+            <div class="warframe-category" id="assault-section">
+                <h3>Warframes de Asalto - Excalibur, Rhino, Mesa</h3>
+                <div class="assault-warframes-container">
+                    <!-- Warframes de asalto -->
+                </div>
+            </div>
+            
+            <div class="warframe-category" id="support-section">
+                <h3>Warframes de Soporte - Trinity, Oberon, Wisp</h3>
+                <div class="support-warframes-container">
+                    <!-- Warframes de soporte -->
+                </div>
+            </div>
+            
+            <div class="warframe-category" id="stealth-section">
+                <h3>Warframes de Sigilo - Loki, Ash, Ivara</h3>
+                <div class="stealth-warframes-container">
+                    <!-- Warframes de sigilo -->
+                </div>
+            </div>
+            
+            <div class="warframe-category" id="tank-section">
+                <h3>Warframes Tanque - Inaros, Nidus, Hildryn</h3>
+                <div class="tank-warframes-container">
+                    <!-- Warframes tanque -->
+                </div>
+            </div>
+        </section>
+
         <section class="warframes-grid" 
                  id="warframes-container" 
                  role="region"
                  aria-labelledby="results-title"
                  aria-live="polite">
-            <h2 id="results-title" class="sr-only">Resultados de Warframes</h2>
+            <h2 id="results-title">Resultados de Warframes</h2>
             <!-- Los Warframes se cargarán dinámicamente con JavaScript -->
         </section>
 

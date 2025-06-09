@@ -54,17 +54,17 @@
     </header>
 
     <main id="main-content" role="main">
-        <section class="hero-section" role="banner" aria-labelledby="hero-title">
+        <section class="hero-section" aria-labelledby="hero-title">
             <div class="hero-content">
-                <h1 id="hero-title">Arsenal de Armas</h1>
+                <h2 id="hero-title">Arsenal de Armas</h2>
                 <p>Descubre y compara las mejores armas del Sistema Solar</p>
             </div>
         </section>
 
         <section class="filters" 
-                 role="toolbar" 
+                 role="region" 
                  aria-labelledby="filter-title">
-            <h2 id="filter-title">Filtrar por Categoría</h2>
+            <h2 id="filter-title">Filtrar Armas por Categoría</h2>
             <div class="filter-buttons" 
                  role="group" 
                  aria-labelledby="filter-title"
@@ -105,7 +105,30 @@
         <section class="weapons-section" 
                  role="region" 
                  aria-labelledby="weapons-title">
-            <h2 id="weapons-title" class="sr-only">Lista de Armas</h2>
+            <h2 id="weapons-title">Catálogo Completo de Armas</h2>
+            
+            <!-- ✅ CATEGORÍAS ESPECÍFICAS CON H3 VISIBLES -->
+            <div class="weapon-category" id="primary-section">
+                <h3>Armas Primarias - Rifles y Escopetas</h3>
+                <div class="primary-weapons-container">
+                    <!-- Contenido de armas primarias -->
+                </div>
+            </div>
+            
+            <div class="weapon-category" id="secondary-section">
+                <h3>Armas Secundarias - Pistolas y Kunai</h3>
+                <div class="secondary-weapons-container">
+                    <!-- Contenido de armas secundarias -->
+                </div>
+            </div>
+            
+            <div class="weapon-category" id="melee-section">
+                <h3>Armas Cuerpo a Cuerpo - Espadas y Martillos</h3>
+                <div class="melee-weapons-container">
+                    <!-- Contenido de armas cuerpo a cuerpo -->
+                </div>
+            </div>
+            
             <div id="weapons-container" 
                  class="weapons-grid"
                  role="grid"
@@ -114,53 +137,54 @@
                 <!-- Las armas se cargan dinámicamente desde XML -->
             </div>
         </section>
-        
-        <footer role="contentinfo">
-            <div class="footer-content">
-                <nav class="footer-section" 
-                     role="navigation" 
-                     aria-labelledby="quick-links-title">
-                    <h4 id="quick-links-title">Enlaces Rápidos</h4>
-                    <ul role="list">
-                        <li><a href="warframes.html" 
-                               tabindex="0"
-                               aria-label="Ir a página de Warframes">Warframes</a></li>
-                        <li><a href="arsenal.html" 
-                               tabindex="0"
-                               aria-label="Recargar página de Arsenal">Arsenal</a></li>
-                        <li><a href="https://www.warframe.com/report" 
-                               target="_blank" 
-                               tabindex="0"
-                               aria-label="Reportar bug - Se abre en nueva ventana">Reportar Bug</a></li>
-                    </ul>
-                </nav>
-                
-                <nav class="footer-section" 
-                     role="navigation" 
-                     aria-labelledby="contact-title">
-                    <h4 id="contact-title">Contacto</h4>
-                    <ul class="social-links" role="list">
-                        <li><a href="mailto:ggmen@outlook.com" 
-                               tabindex="0"
-                               aria-label="Enviar email a ggmen@outlook.com">✉ Email</a></li>
-                        <li><a href="https://twitter.com/Warframe" 
-                               target="_blank" 
-                               tabindex="0"
-                               aria-label="Seguir en Twitter - Se abre en nueva ventana">🐦 Twitter</a></li>
-                        <li><a href="https://discord.gg/warframe" 
-                               target="_blank" 
-                               tabindex="0"
-                               aria-label="Unirse al Discord - Se abre en nueva ventana">💬 Discord</a></li>
-                    </ul>
-                </nav>
-                
-                <div class="footer-section" role="contentinfo">
-                    <h4>Digital Extremes</h4>
-                    <p>Página creada por: GGM</p>
-                    <p>© 2025 - Fan Site no oficial</p>
-                </div>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="footer-content">
+            <nav class="footer-section" 
+                 role="navigation" 
+                 aria-labelledby="quick-links-title">
+                <h4 id="quick-links-title">Enlaces Rápidos</h4>
+                <ul role="list">
+                    <li><a href="warframes.html" 
+                           tabindex="0"
+                           aria-label="Ir a página de Warframes">Warframes</a></li>
+                    <li><a href="arsenal.html" 
+                           tabindex="0"
+                           aria-label="Recargar página de Arsenal">Arsenal</a></li>
+                    <li><a href="https://www.warframe.com/report" 
+                           target="_blank" 
+                           tabindex="0"
+                           aria-label="Reportar bug - Se abre en nueva ventana">Reportar Bug</a></li>
+                </ul>
+            </nav>
+            
+            <nav class="footer-section" 
+                 role="navigation" 
+                 aria-labelledby="contact-title">
+                <h4 id="contact-title">Contacto</h4>
+                <ul class="social-links" role="list">
+                    <li><a href="mailto:ggmen@outlook.com" 
+                           tabindex="0"
+                           aria-label="Enviar email a ggmen@outlook.com">✉ Email</a></li>
+                    <li><a href="https://twitter.com/Warframe" 
+                           target="_blank" 
+                           tabindex="0"
+                           aria-label="Seguir en Twitter - Se abre en nueva ventana">🐦 Twitter</a></li>
+                    <li><a href="https://discord.gg/warframe" 
+                           target="_blank" 
+                           tabindex="0"
+                           aria-label="Unirse al Discord - Se abre en nueva ventana">💬 Discord</a></li>
+                </ul>
+            </nav>
+            
+            <div class="footer-section" role="contentinfo">
+                <h4>Digital Extremes</h4>
+                <p>Página creada por: GGM</p>
+                <p>© 2025 - Fan Site no oficial</p>
             </div>
-        </footer>
+        </div>
+    </footer>
 
     <script src="js/arsenal.js"></script>
 </body>

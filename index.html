@@ -56,7 +56,8 @@
     <main id="main-content" role="main">
         <section class="hero" role="banner" aria-labelledby="hero-title">
             <div class="hero-content">
-                <h1 id="hero-title">Bienvenido al Sistema Solar</h1>
+                <!-- ✅ CAMBIO: h1 → h2, pero mantenemos el estilo visual -->
+                <h2 id="hero-title">Bienvenido al Sistema Solar</h2>
                 <p>Despierta como un guerrero Tenno y domina el poder de los Warframes en este universo de ciencia ficción</p>
                 <button class="cta-button" 
                         onclick="showWelcomeMessage()" 
@@ -72,6 +73,7 @@
         </section>
 
         <section class="features" role="region" aria-labelledby="features-title">
+            <!-- ✅ AGREGAMOS H2 OCULTO PARA NVDA -->
             <h2 id="features-title" class="sr-only">Características Principales</h2>
             
             <article class="feature-card" 
@@ -111,101 +113,99 @@
             </article>
         </section>
 
-        <aside class="news-section" 
-               role="complementary" 
-               aria-labelledby="news-title">
-            <h2 id="news-title">Últimas Noticias del Lotus</h2>
-            <div class="news-container" role="feed" aria-label="Feed de noticias">
-                <article class="news-item" 
-                         tabindex="0" 
-                         role="article"
-                         aria-labelledby="news1-title"
-                         aria-describedby="news1-content news1-date">
-                    <h3 id="news1-title">Nueva Actualización: The Duviri Paradox</h3>
-                    <p id="news1-content">Explora el reino de Duviri y descubre nuevos secretos...</p>
-                    <time id="news1-date" class="news-date" datetime="2025-06-07">Hace 2 días</time>
-                </article>
+        <!-- ✅ SECCIÓN: IMAGEN ACCESIBLE -->
+        <section class="showcase-image" role="region" aria-labelledby="showcase-title">
+            <h2 id="showcase-title">El Universo Warframe</h2>
+            <figure class="main-showcase">
+                <img src="images/warframe-universe.jpg" 
+                     alt="Panorámica épica del Sistema Solar de Warframe mostrando múltiples planetas: Tierra con bosques verdes y ruinas doradas Orokin, Marte con tormentas de arena rojas y bases Grineer, Venus con nubes tóxicas amarillas y factorías Corpus, y Júpiter con plataformas flotantes entre nubes de gas. En primer plano, cuatro Warframes (Excalibur, Mag, Volt y Rhino) en poses heroicas con sus armas características. Naves espaciales Tenno surcan el espacio estrellado de fondo."
+                     width="1200" 
+                     height="600"
+                     loading="lazy"
+                     tabindex="0">
+                <figcaption>
+                    <h3>Explora el Sistema Solar</h3>
+                    <p>Descubre mundos únicos, cada uno con sus propios desafíos y secretos por revelar</p>
+                </figcaption>
+            </figure>
+        </section>
+
+        <section class="video-showcase" role="region" aria-labelledby="video-showcase-title">
+            <h2 id="video-showcase-title">Gameplay Trailer Oficial</h2>
+            <div class="video-container">
+                <video controls 
+                       width="800" 
+                       height="450"
+                       poster="images/gameplay-poster.jpg"
+                       aria-labelledby="video-showcase-title"
+                       aria-describedby="video-full-description"
+                       tabindex="0">
+                    <source src="videos/warframe-gameplay.mp4" type="video/mp4">
+                    <source src="videos/warframe-gameplay.webm" type="video/webm">
+                    
+                    <!-- ✅ SUBTÍTULOS -->
+                    <track kind="captions" 
+                           src="captions/gameplay-es.vtt" 
+                           srclang="es" 
+                           label="Español"
+                           default>
+                    
+                    <!-- Fallback -->
+                    <p>Tu navegador no soporta videos HTML5. 
+                       <a href="videos/warframe-gameplay.mp4" 
+                          aria-label="Descargar video de gameplay de Warframe">
+                          Descargar video
+                       </a>
+                    </p>
+                </video>
                 
-                <article class="news-item" 
-                         tabindex="0" 
-                         role="article"
-                         aria-labelledby="news2-title"
-                         aria-describedby="news2-content news2-date">
-                    <h3 id="news2-title">Evento Nightwave: Nora's Mix Volume III</h3>
-                    <p id="news2-content">Completa desafíos únicos y obtén recompensas exclusivas...</p>
-                    <time id="news2-date" class="news-date" datetime="2025-06-02">Hace 1 semana</time>
-                </article>
+                <div id="video-full-description" class="video-description">
+                    <h3>Descripción Completa del Video</h3>
+                    <p><strong>Duración:</strong> 3 minutos 15 segundos</p>
+                    <p><strong>Descripción detallada:</strong> Video de gameplay que inicia mostrando a Excalibur corriendo por los pasillos metálicos de una nave Corpus. El Warframe usa parkour para saltar entre plataformas, deslizarse por paredes y realizar acrobacias aéreas. Combate contra soldados Corpus usando un rifle Braton, disparos de energía azul impactan contra enemigos robóticos. Transición a Rhino en Marte, cargando a través de una tormenta de arena contra tropas Grineer con armaduras rojas. Usa su habilidad Iron Skin para volverse invulnerable mientras dispara un Soma automático. Secuencia final muestra a Mag en una estación espacial, manipulando campos magnéticos para atraer enemigos y proyectiles, creando una esfera de energía púrpura que explota causando daño masivo. El video termina con los tres Warframes posando heroicamente mientras el logo aparece.</p>
+                    
+                    <details>
+                        <summary tabindex="0">Transcripción completa</summary>
+                        <div class="transcript">
+                            <p><strong>[00:00-00:30]</strong> Sonidos de pasos metálicos y música electrónica. Excalibur corre por pasillos futuristas.</p>
+                            <p><strong>[00:30-01:00]</strong> Sonidos de disparos de energía y explosiones. Combate contra robots Corpus.</p>
+                            <p><strong>[01:00-01:30]</strong> Música épica orquestal. Rhino aparece en paisaje marciano.</p>
+                            <p><strong>[01:30-02:00]</strong> Sonidos de ametralladoras y gritos de guerra Grineer.</p>
+                            <p><strong>[02:00-02:30]</strong> Efectos de sonido magnéticos y energía. Mag usa sus poderes.</p>
+                            <p><strong>[02:30-03:15]</strong> Clímax musical con explosión final y aparición del logo Warframe.</p>
+                        </div>
+                    </details>
+                </div>
             </div>
-        </aside>
+        </section>
     </main>
 
-    <!-- ✅ SECCIÓN: IMAGEN ACCESIBLE -->
-<section class="showcase-image" role="region" aria-labelledby="showcase-title">
-    <h2 id="showcase-title">El Universo Warframe</h2>
-    <figure class="main-showcase">
-        <img src="images/warframe-universe.jpg" 
-             alt="Panorámica épica del Sistema Solar de Warframe mostrando múltiples planetas: Tierra con bosques verdes y ruinas doradas Orokin, Marte con tormentas de arena rojas y bases Grineer, Venus con nubes tóxicas amarillas y factorías Corpus, y Júpiter con plataformas flotantes entre nubes de gas. En primer plano, cuatro Warframes (Excalibur, Mag, Volt y Rhino) en poses heroicas con sus armas características. Naves espaciales Tenno surcan el espacio estrellado de fondo."
-             width="1200" 
-             height="600"
-             loading="lazy"
-             tabindex="0">
-        <figcaption>
-            <h3>Explora el Sistema Solar</h3>
-            <p>Descubre mundos únicos, cada uno con sus propios desafíos y secretos por revelar</p>
-        </figcaption>
-    </figure>
-</section>
-
-<!-- ✅ SECCIÓN: VIDEO ACCESIBLE -->
-<section class="video-showcase" role="region" aria-labelledby="video-showcase-title">
-    <h2 id="video-showcase-title">Gameplay Trailer Oficial</h2>
-    <div class="video-container">
-        <video controls 
-               width="800" 
-               height="450"
-               poster="images/gameplay-poster.jpg"
-               aria-labelledby="video-showcase-title"
-               aria-describedby="video-full-description"
-               tabindex="0">
-            <source src="videos/warframe-gameplay.mp4" type="video/mp4">
-            <source src="videos/warframe-gameplay.webm" type="video/webm">
+    <aside class="news-section" 
+           role="complementary" 
+           aria-labelledby="news-title">
+        <h2 id="news-title">Últimas Noticias del Lotus</h2>
+        <div class="news-container" role="feed" aria-label="Feed de noticias">
+            <article class="news-item" 
+                     tabindex="0" 
+                     role="article"
+                     aria-labelledby="news1-title"
+                     aria-describedby="news1-content news1-date">
+                <h3 id="news1-title">Nueva Actualización: The Duviri Paradox</h3>
+                <p id="news1-content">Explora el reino de Duviri y descubre nuevos secretos...</p>
+                <time id="news1-date" class="news-date" datetime="2025-06-07">Hace 2 días</time>
+            </article>
             
-            <!-- ✅ SUBTÍTULOS -->
-            <track kind="captions" 
-                   src="captions/gameplay-es.vtt" 
-                   srclang="es" 
-                   label="Español"
-                   default>
-            
-            <!-- Fallback -->
-            <p>Tu navegador no soporta videos HTML5. 
-               <a href="videos/warframe-gameplay.mp4" 
-                  aria-label="Descargar video de gameplay de Warframe">
-                  Descargar video
-               </a>
-            </p>
-        </video>
-        
-        <div id="video-full-description" class="video-description">
-            <h3>Descripción Completa del Video</h3>
-            <p><strong>Duración:</strong> 3 minutos 15 segundos</p>
-            <p><strong>Descripción detallada:</strong> Video de gameplay que inicia mostrando a Excalibur corriendo por los pasillos metálicos de una nave Corpus. El Warframe usa parkour para saltar entre plataformas, deslizarse por paredes y realizar acrobacias aéreas. Combate contra soldados Corpus usando un rifle Braton, disparos de energía azul impactan contra enemigos robóticos. Transición a Rhino en Marte, cargando a través de una tormenta de arena contra tropas Grineer con armaduras rojas. Usa su habilidad Iron Skin para volverse invulnerable mientras dispara un Soma automático. Secuencia final muestra a Mag en una estación espacial, manipulando campos magnéticos para atraer enemigos y proyectiles, creando una esfera de energía púrpura que explota causando daño masivo. El video termina con los tres Warframes posando heroicamente mientras el logo aparece.</p>
-            
-            <details>
-                <summary tabindex="0">transcripción completa</summary>
-                <div class="transcript">
-                    <p><strong>[00:00-00:30]</strong> Sonidos de pasos metálicos y música electrónica. Excalibur corre por pasillos futuristas.</p>
-                    <p><strong>[00:30-01:00]</strong> Sonidos de disparos de energía y explosiones. Combate contra robots Corpus.</p>
-                    <p><strong>[01:00-01:30]</strong> Música épica orquestal. Rhino aparece en paisaje marciano.</p>
-                    <p><strong>[01:30-02:00]</strong> Sonidos de ametralladoras y gritos de guerra Grineer.</p>
-                    <p><strong>[02:00-02:30]</strong> Efectos de sonido magnéticos y energía. Mag usa sus poderes.</p>
-                    <p><strong>[02:30-03:15]</strong> Clímax musical con explosión final y aparición del logo Warframe.</p>
-                </div>
-            </details>
+            <article class="news-item" 
+                     tabindex="0" 
+                     role="article"
+                     aria-labelledby="news2-title"
+                     aria-describedby="news2-content news2-date">
+                <h3 id="news2-title">Evento Nightwave: Nora's Mix Volume III</h3>
+                <p id="news2-content">Completa desafíos únicos y obtén recompensas exclusivas...</p>
+                <time id="news2-date" class="news-date" datetime="2025-06-02">Hace 1 semana</time>
+            </article>
         </div>
-    </div>
-</section>
-
+    </aside>
 
     <footer role="contentinfo">
         <div class="footer-content">
