@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arsenal - Warframe Guide</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>Warframe Arsenal</h1>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="warframes.html">Warframes</a></li>
+                <li><a href="arsenal.html" class="active">Arsenal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Arsenal de Armas</h1>
+                <p>Descubre y compara las mejores armas del Sistema Solar</p>
+            </div>
+        </section>
+
+        <section class="filters">
+            <h2>Filtrar por Categoría</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterWeapons('all')">Todas</button>
+                <button class="filter-btn" onclick="filterWeapons('primary')">Primarias</button>
+                <button class="filter-btn" onclick="filterWeapons('secondary')">Secundarias</button>
+                <button class="filter-btn" onclick="filterWeapons('melee')">Cuerpo a Cuerpo</button>
+            </div>
+        </section>
+
+        <section class="weapons-section">
+            <div id="weapons-container" class="weapons-grid">
+                <!-- Las armas se cargan dinámicamente desde XML -->
+            </div>
+        </section>
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="warframes.html">Warframes</a></li>
+                        <li><a href="arsenal.html">Arsenal</a></li>
+                        <li><a href="https://www.warframe.com/report" target="_blank">Reportar Bug</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul class="social-links">
+                        <li><a href="mailto:ggmen@outlook.com">✉ Email</a></li>
+                        <li><a href="https://twitter.com/Warframe" target="_blank">🐦 Twitter</a></li>
+                        <li><a href="https://discord.gg/warframe" target="_blank">💬 Discord</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Digital Extremes</h4>
+                    <p>Página creada por: GGM</p>
+                    <p> 2025 - Fan Site no oficial</p>
+                </div>
+            </div>
+        </footer>
+    
+
+    <script src="js/arsenal.js"></script>
+</body>
+</html>

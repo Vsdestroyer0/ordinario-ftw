@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warframe - Universo Tenno</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>WARFRAME</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="warframes.html">Warframes</a></li>
+                <li><a href="arsenal.html">Arsenal</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Bienvenido al Sistema Solar</h2>
+                <p>Despierta como un guerrero Tenno y domina el poder de los Warframes en este universo de ciencia ficción</p>
+                <button class="cta-button" onclick="showWelcomeMessage()">Comenzar Misión</button>
+            </div>
+            <div class="hero-image">
+                <div class="warframe-showcase"></div>
+            </div>
+        </section>
+
+        <section class="features">
+            <article class="feature-card">
+                <h3>Warframes Únicos</h3>
+                <p>Cada Warframe posee habilidades únicas y estilos de combate distintivos. Desde el sigiloso Loki hasta el destructivo Rhino.</p>
+                <button onclick="navigateToWarframes()">Explorar Warframes</button>
+            </article>
+
+            <article class="feature-card">
+                <h3>Arsenal Devastador</h3>
+                <p>Más de 500 armas diferentes te esperan. Rifles, pistolas, armas cuerpo a cuerpo y mucho más para personalizar tu estilo.</p>
+                <button onclick="navigateToArsenal()">Ver Arsenal</button>
+            </article>
+
+            <article class="feature-card">
+                <h3>Misiones Cooperativas</h3>
+                <p>Únete con hasta 3 amigos en misiones épicas a través del Sistema Solar. La cooperación es clave para la victoria.</p>
+                <button onclick="showMissionInfo()">Información de Misiones</button>
+            </article>
+        </section>
+
+        <aside class="news-section">
+            <h3>Últimas Noticias del Lotus</h3>
+            <div class="news-container">
+                <div class="news-item">
+                    <h4>Nueva Actualización: The Duviri Paradox</h4>
+                    <p>Explora el reino de Duviri y descubre nuevos secretos...</p>
+                    <span class="news-date">Hace 2 días</span>
+                </div>
+                <div class="news-item">
+                    <h4>Evento Nightwave: Nora's Mix Volume III</h4>
+                    <p>Completa desafíos únicos y obtén recompensas exclusivas...</p>
+                    <span class="news-date">Hace 1 semana</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="warframes.html">Warframes</a></li>
+                    <li><a href="arsenal.html">Arsenal</a></li>
+                    <li><a href="https://www.warframe.com/report" target="_blank">Reportar Bug</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul class="social-links">
+                    <li><a href="mailto:ggmen@outlook.com">✉ Email</a></li>
+                    <li><a href="https://twitter.com/Warframe" target="_blank">🐦 Twitter</a></li>
+                    <li><a href="https://discord.gg/warframe" target="_blank">💬 Discord</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Digital Extremes</h4>
+                <p>Página creada por: GGM</p>
+                <p> 2025 - Fan Site no oficial</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<warframes>
+    <warframe id="excalibur" type="assault" mastery="0">
+        <name>Excalibur</name>
+        <description>El Warframe equilibrado perfecto para principiantes</description>
+        <stats>
+            <health>300</health>
+            <shield>300</shield>
+            <armor>225</armor>
+            <energy>150</energy>
+            <speed>1.0</speed>
+        </stats>
+        <abilities>
+            <ability name="Slash Dash" energy="25" description="Dash hacia adelante cortando enemigos"/>
+            <ability name="Radial Blind" energy="50" description="Ciega a enemigos cercanos"/>
+            <ability name="Radial Javelin" energy="75" description="Lanza jabalinas a múltiples enemigos"/>
+            <ability name="Exalted Blade" energy="100" description="Invoca una espada de energía"/>
+        </abilities>
+        <acquisition>Inicial</acquisition>
+        <release_date>2013-03-25</release_date>
+    </warframe>
+    
+    <warframe id="mag" type="support" mastery="0">
+        <name>Mag</name>
+        <description>Maestra del magnetismo y control de masas</description>
+        <stats>
+            <health>300</health>
+            <shield>450</shield>
+            <armor>65</armor>
+            <energy>188</energy>
+            <speed>1.0</speed>
+        </stats>
+        <abilities>
+            <ability name="Pull" energy="25" description="Atrae enemigos hacia ti"/>
+            <ability name="Magnetize" energy="50" description="Crea una esfera magnética"/>
+            <ability name="Polarize" energy="75" description="Despoja escudos y armadura"/>
+            <ability name="Crush" energy="100" description="Aplasta enemigos con fuerza magnética"/>
+        </abilities>
+        <acquisition>Inicial</acquisition>
+        <release_date>2013-03-25</release_date>
+    </warframe>
+    
+    <warframe id="volt" type="assault" mastery="0">
+        <name>Volt</name>
+        <description>Harness el poder de la electricidad</description>
+        <stats>
+            <health>300</health>
+            <shield>375</shield>
+            <armor>15</armor>
+            <energy>200</energy>
+            <speed>1.0</speed>
+        </stats>
+        <abilities>
+            <ability name="Shock" energy="25" description="Dispara un rayo eléctrico"/>
+            <ability name="Speed" energy="50" description="Aumenta velocidad de movimiento y ataque"/>
+            <ability name="Electric Shield" energy="75" description="Crea un escudo eléctrico"/>
+            <ability name="Discharge" energy="100" description="Electrocuta a todos los enemigos cercanos"/>
+        </abilities>
+        <acquisition>Inicial</acquisition>
+        <release_date>2013-03-25</release_date>
+    </warframe>
+    
+    <warframe id="rhino" type="tank" mastery="2">
+        <name>Rhino</name>
+        <description>Tanque pesado con gran resistencia</description>
+        <stats>
+            <health>750</health>
+            <shield>150</shield>
+            <armor>190</armor>
+            <energy>150</energy>
+            <speed>0.95</speed>
+        </stats>
+        <abilities>
+            <ability name="Rhino Charge" energy="25" description="Embiste a los enemigos"/>
+            <ability name="Iron Skin" energy="50" description="Piel de hierro que absorbe daño"/>
+            <ability name="Roar" energy="75" description="Aumenta el daño del equipo"/>
+            <ability name="Rhino Stomp" energy="100" description="Pisotón que ralentiza enemigos"/>
+        </abilities>
+        <acquisition>Jefe Jackal (Venus)</acquisition>
+        <release_date>2013-03-25</release_date>
+    </warframe>
+    
+    <warframe id="loki" type="stealth" mastery="0">
+        <name>Loki</name>
+        <description>Maestro del engaño y la invisibilidad</description>
+        <stats>
+            <health>225</health>
+            <shield>225</shield>
+            <armor>65</armor>
+            <energy>188</energy>
+            <speed>1.25</speed>
+        </stats>
+        <abilities>
+            <ability name="Decoy" energy="25" description="Crea un señuelo holográfico"/>
+            <ability name="Invisibility" energy="50" description="Se vuelve invisible"/>
+            <ability name="Switch Teleport" energy="75" description="Intercambia posición con objetivo"/>
+            <ability name="Radial Disarm" energy="100" description="Desarma a enemigos cercanos"/>
+        </abilities>
+        <acquisition>Jefe Hyena Pack (Neptuno)</acquisition>
+        <release_date>2013-05-01</release_date>
+    </warframe>
+    
+    <warframe id="trinity" type="support" mastery="4">
+        <name>Trinity</name>
+        <description>Soporte médico del equipo</description>
+        <stats>
+            <health>300</health>
+            <shield>300</shield>
+            <armor>15</armor>
+            <energy>225</energy>
+            <speed>1.0</speed>
+        </stats>
+        <abilities>
+            <ability name="Well of Life" energy="25" description="Marca enemigo para curación"/>
+            <ability name="Energy Vampire" energy="50" description="Drena energía de enemigos"/>
+            <ability name="Link" energy="75" description="Redirige daño a enemigos"/>
+            <ability name="Blessing" energy="100" description="Cura y protege al equipo"/>
+        </abilities>
+        <acquisition>Jefe Ambulas (Plutón)</acquisition>
+        <release_date>2013-05-22</release_date>
+    </warframe>
+</warframes>

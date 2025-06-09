@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warframes - Guerreros Tenno</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>WARFRAME</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="warframes.html" class="active">Warframes</a></li>
+                <li><a href="arsenal.html">Arsenal</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <h1>Warframes Disponibles</h1>
+            <p>Descubre los diferentes Warframes y sus habilidades únicas</p>
+        </section>
+
+        <section class="filters">
+            <div class="filter-container">
+                <label for="warframe-type">Filtrar por tipo:</label>
+                <select id="warframe-type" onchange="filterWarframes()">
+                    <option value="all">Todos</option>
+                    <option value="assault">Asalto</option>
+                    <option value="support">Soporte</option>
+                    <option value="stealth">Sigilo</option>
+                    <option value="tank">Tanque</option>
+                </select>
+                
+                <input type="text" id="search-warframe" placeholder="Buscar Warframe..." oninput="searchWarframes()">
+                <button onclick="resetFilters()">Limpiar Filtros</button>
+            </div>
+        </section>
+
+        <section class="warframes-grid" id="warframes-container">
+            <!-- Los Warframes se cargarán dinámicamente con JavaScript -->
+        </section>
+
+        <aside class="warframe-details" id="warframe-modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div id="modal-body">
+                    <!-- Contenido del modal se carga dinámicamente -->
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Comunidad</h4>
+                <ul>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">Reddit</a></li>
+                    <li><a href="#">Forums</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Soporte</h4>
+                <ul>
+                    <li><a href="#">Centro de Ayuda</a></li>
+                    <li><a href="#">Reportar Bug</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Digital Extremes</h4>
+                <p>&copy; 2024 Digital Extremes Ltd. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

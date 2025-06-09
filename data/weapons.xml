@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weapons>
+    <weapon id="braton-prime" category="primary" type="assault-rifle" mastery="8">
+        <name>Braton Prime</name>
+        <description>Versión mejorada del rifle de asalto clásico de los Tenno</description>
+        <stats>
+            <damage>34</damage>
+            <critical_chance>18</critical_chance>
+            <critical_multiplier>2.4</critical_multiplier>
+            <status_chance>24</status_chance>
+            <fire_rate>8.8</fire_rate>
+            <accuracy>50</accuracy>
+            <magazine>75</magazine>
+            <reload_time>2.0</reload_time>
+        </stats>
+        <acquisition>Prime Vault/Trading</acquisition>
+        <release_date>2014-02-05</release_date>
+    </weapon>
+    
+    <weapon id="soma-prime" category="primary" type="assault-rifle" mastery="7">
+        <name>Soma Prime</name>
+        <description>Rifle de asalto con alta cadencia de fuego y precisión letal</description>
+        <stats>
+            <damage>12</damage>
+            <critical_chance>30</critical_chance>
+            <critical_multiplier>3.0</critical_multiplier>
+            <status_chance>10</status_chance>
+            <fire_rate>15</fire_rate>
+            <accuracy>28.6</accuracy>
+            <magazine>200</magazine>
+            <reload_time>3.0</reload_time>
+        </stats>
+        <acquisition>Prime Vault/Trading</acquisition>
+        <release_date>2014-05-20</release_date>
+    </weapon>
+    
+    <weapon id="lex-prime" category="secondary" type="pistol" mastery="8">
+        <name>Lex Prime</name>
+        <description>Pistola de alto calibre con daño devastador por disparo</description>
+        <stats>
+            <damage>140</damage>
+            <critical_chance>30</critical_chance>
+            <critical_multiplier>2.0</critical_multiplier>
+            <status_chance>10</status_chance>
+            <fire_rate>1.7</fire_rate>
+            <accuracy>16</accuracy>
+            <magazine>8</magazine>
+            <reload_time>2.4</reload_time>
+        </stats>
+        <acquisition>Prime Vault/Trading</acquisition>
+        <release_date>2013-12-17</release_date>
+    </weapon>
+    
+    <weapon id="kunai" category="secondary" type="throwing-knife" mastery="2">
+        <name>Kunai</name>
+        <description>Cuchillas arrojadizas tradicionales, silenciosas y letales</description>
+        <stats>
+            <damage>180</damage>
+            <critical_chance>12</critical_chance>
+            <critical_multiplier>1.8</critical_multiplier>
+            <status_chance>2</status_chance>
+            <fire_rate>3.3</fire_rate>
+            <accuracy>100</accuracy>
+            <magazine>10</magazine>
+            <reload_time>0.8</reload_time>
+        </stats>
+        <acquisition>Market/Blueprint</acquisition>
+        <release_date>2013-03-25</release_date>
+    </weapon>
+    
+    <weapon id="nikana-prime" category="melee" type="nikana" mastery="12">
+        <name>Nikana Prime</name>
+        <description>Katana ceremonial de los Tenno, perfecta en balance y letalidad</description>
+        <stats>
+            <damage>280</damage>
+            <critical_chance>28</critical_chance>
+            <critical_multiplier>2.8</critical_multiplier>
+            <status_chance>14</status_chance>
+            <attack_speed>0.83</attack_speed>
+            <range>2.5</range>
+            <slide_attack>560</slide_attack>
+            <heavy_attack>840</heavy_attack>
+        </stats>
+        <acquisition>Prime Vault/Trading</acquisition>
+        <release_date>2015-07-07</release_date>
+    </weapon>
+    
+    <weapon id="bo-prime" category="melee" type="staff" mastery="6">
+        <name>Bo Prime</name>
+        <description>Bastón de combate mejorado con mayor alcance y velocidad</description>
+        <stats>
+            <damage>260</damage>
+            <critical_chance>18</critical_chance>
+            <critical_multiplier>2.0</critical_multiplier>
+            <status_chance>36</status_chance>
+            <attack_speed>1.08</attack_speed>
+            <range>3.0</range>
+            <slide_attack>780</slide_attack>
+            <heavy_attack>520</heavy_attack>
+        </stats>
+        <acquisition>Prime Vault/Trading</acquisition>
+        <release_date>2014-03-18</release_date>
+    </weapon>
+    
+    <weapon id="ignis-wraith" category="primary" type="flamethrower" mastery="9">
+        <name>Ignis Wraith</name>
+        <description>Lanzallamas mejorado con mayor alcance y daño por área</description>
+        <stats>
+            <damage>35</damage>
+            <critical_chance>17</critical_chance>
+            <critical_multiplier>2.5</critical_multiplier>
+            <status_chance>29</status_chance>
+            <fire_rate>12</fire_rate>
+            <accuracy>100</accuracy>
+            <magazine>200</magazine>
+            <reload_time>2.0</reload_time>
+        </stats>
+        <acquisition>Clan Research/Trading</acquisition>
+        <release_date>2017-02-14</release_date>
+    </weapon>
+    
+    <weapon id="hek" category="primary" type="shotgun" mastery="4">
+        <name>Hek</name>
+        <description>Escopeta robusta con gran poder de parada</description>
+        <stats>
+            <damage>525</damage>
+            <critical_chance>10</critical_chance>
+            <critical_multiplier>2.0</critical_multiplier>
+            <status_chance>25</status_chance>
+            <fire_rate>2.1</fire_rate>
+            <accuracy>6.7</accuracy>
+            <magazine>4</magazine>
+            <reload_time>2.3</reload_time>
+        </stats>
+        <acquisition>Market/Blueprint</acquisition>
+        <release_date>2013-03-25</release_date>
+    </weapon>
+</weapons>
