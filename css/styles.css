@@ -1,4 +1,4 @@
-/* Reset y variables */
+/* ===== RESET Y VARIABLES ===== */
 * {
     margin: 0;
     padding: 0;
@@ -6,29 +6,67 @@
 }
 
 :root {
-    --primary-color: #00d4ff;
-    --secondary-color: #1a1a2e;
-    --accent-color: #ff6b35;
-    --background-dark: #0f0f23;
-    --background-light: #16213e;
-    --text-light: #ffffff;
-    --text-muted: #b0b0b0;
-    --border-color: #333;
-    --gradient-primary: linear-gradient(135deg, #00d4ff, #0099cc);
-    --gradient-secondary: linear-gradient(135deg, #ff6b35, #cc5429);
+    /* Colores principales */
+    --primario: #00d4ff;
+    --secundario: #ff6b35;
+    --fondo-oscuro: #0f0f23;
+    --fondo-claro: #16213e;
+    --texto-blanco: #ffffff;
+    --texto-gris: #b0b0b0;
+    --borde: #333;
+    
+    /* Gradientes básicos */
+    --gradiente-azul: linear-gradient(135deg, #00d4ff, #0099cc);
+    --gradiente-naranja: linear-gradient(135deg, #ff6b35, #cc5429);
 }
 
+/* ===== BASE ===== */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: var(--background-dark);
-    color: var(--text-light);
+    font-family: Arial, sans-serif;
+    background: var(--fondo-oscuro);
+    color: var(--texto-blanco);
     line-height: 1.6;
     overflow-x: hidden;
 }
 
-/* Header y Navegación */
+/* ===== ACCESIBILIDAD ===== */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--primario);
+    color: var(--fondo-oscuro);
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 2000;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+*:focus {
+    outline: 2px solid var(--primario);
+    outline-offset: 2px;
+}
+
+/* ===== HEADER ===== */
 header {
-    background: var(--background-light);
+    background: var(--fondo-claro);
     padding: 1rem 0;
     position: fixed;
     top: 0;
@@ -47,7 +85,7 @@ nav {
 }
 
 .logo h1 {
-    background: var(--gradient-primary);
+    background: var(--gradiente-azul);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -62,7 +100,7 @@ nav {
 }
 
 .nav-menu a {
-    color: var(--text-light);
+    color: var(--texto-blanco);
     text-decoration: none;
     transition: color 0.3s ease;
     position: relative;
@@ -70,7 +108,7 @@ nav {
 
 .nav-menu a:hover,
 .nav-menu a.active {
-    color: var(--primary-color);
+    color: var(--primario);
 }
 
 .nav-menu a.active::after {
@@ -80,7 +118,7 @@ nav {
     left: 0;
     width: 100%;
     height: 2px;
-    background: var(--gradient-primary);
+    background: var(--gradiente-azul);
 }
 
 .hamburger {
@@ -92,18 +130,18 @@ nav {
 .hamburger span {
     width: 25px;
     height: 3px;
-    background: var(--text-light);
+    background: var(--texto-blanco);
     margin: 3px 0;
     transition: 0.3s;
 }
 
-/* Main Content */
+/* ===== MAIN CONTENT ===== */
 main {
     margin-top: 80px;
     min-height: calc(100vh - 80px);
 }
 
-/* Hero Section */
+/* ===== HERO SECTION ===== */
 .hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -117,7 +155,7 @@ main {
 .hero-content h2 {
     font-size: 3rem;
     margin-bottom: 1rem;
-    background: var(--gradient-primary);
+    background: var(--gradiente-azul);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -125,24 +163,8 @@ main {
 
 .hero-content p {
     font-size: 1.2rem;
-    color: var(--text-muted);
+    color: var(--texto-gris);
     margin-bottom: 2rem;
-}
-
-.cta-button {
-    background: var(--gradient-primary);
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
 }
 
 .hero-image {
@@ -154,7 +176,7 @@ main {
 .warframe-showcase {
     width: 300px;
     height: 300px;
-    background: var(--gradient-secondary);
+    background: var(--gradiente-naranja);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -175,7 +197,67 @@ main {
     50% { transform: translateY(-20px); }
 }
 
-/* Features Section */
+/* ===== BOTONES BÁSICOS ===== */
+button,
+.btn,
+.cta-button,
+.filter-btn,
+.tab-button {
+    background: var(--primario);
+    color: white;
+    border: 1px solid var(--primario);
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+button:hover,
+.btn:hover,
+.cta-button:hover,
+.filter-btn:hover,
+.tab-button:hover {
+    background: var(--secundario);
+    border-color: var(--secundario);
+}
+
+.filter-btn {
+    background: var(--fondo-oscuro);
+    color: var(--texto-blanco);
+    border: 1px solid var(--borde);
+}
+
+.filter-btn.active {
+    background: var(--primario);
+    color: white;
+    border-color: var(--primario);
+}
+
+.btn-favorite {
+    background: transparent;
+    border: 1px solid var(--borde);
+    color: var(--texto-gris);
+    padding: 0.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.btn-favorite:hover {
+    border-color: var(--primario);
+    color: var(--primario);
+}
+
+.btn-favorite.favorited {
+    color: #f1c40f;
+    border-color: #f1c40f;
+    background: rgba(241, 196, 15, 0.1);
+}
+
+/* ===== CARDS ===== */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -185,85 +267,47 @@ main {
     margin: 0 auto;
 }
 
-.feature-card {
-    background: var(--background-light);
+.feature-card,
+.warframe-card,
+.weapon-card {
+    background: var(--fondo-claro);
     padding: 2rem;
     border-radius: 10px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--borde);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.feature-card:hover {
+.feature-card:hover,
+.warframe-card:hover,
+.weapon-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0, 212, 255, 0.2);
 }
 
-.feature-card h3 {
-    color: var(--primary-color);
+.feature-card h3,
+.warframe-card h3,
+.weapon-card h3 {
+    color: var(--primario);
     margin-bottom: 1rem;
     font-size: 1.5rem;
 }
 
-.feature-card button {
-    background: var(--gradient-secondary);
-    border: none;
-    padding: 0.8rem 1.5rem;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 1rem;
-    transition: transform 0.3s ease;
-}
-
-.feature-card button:hover {
-    transform: scale(1.05);
-}
-
-/* Aside News Section */
-.news-section {
-    background: var(--background-light);
-    margin: 2rem;
-    padding: 2rem;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-}
-
-.news-section h3 {
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-}
-
-.news-item {
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.news-item:last-child {
-    border-bottom: none;
-}
-
-.news-item h4 {
-    color: var(--text-light);
-    margin-bottom: 0.5rem;
-}
-
-.news-item p {
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-}
-
-.news-date {
-    color: var(--primary-color);
-    font-size: 0.9rem;
-}
-
-/* Page Header */
+/* ===== FILTROS ===== */
+.filters,
 .page-header {
     text-align: center;
-    padding: 4rem 2rem 2rem;
-    background: var(--gradient-primary);
+    padding: 2rem;
+    background: var(--fondo-claro);
+    margin: 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--borde);
+}
+
+.page-header {
+    background: var(--gradiente-azul);
     color: white;
+    margin: 0;
+    border-radius: 0;
 }
 
 .page-header h1 {
@@ -271,115 +315,196 @@ main {
     margin-bottom: 1rem;
 }
 
-/* Filters */
-.filters {
-    padding: 2rem;
-    background: var(--background-light);
-    border-bottom: 1px solid var(--border-color);
+.filters h2 {
+    color: var(--primario);
+    margin-bottom: 1.5rem;
 }
 
-.filter-container {
-    max-width: 1200px;
-    margin: 0 auto;
+.filter-buttons,
+.category-tabs {
     display: flex;
+    justify-content: center;
     gap: 1rem;
-    align-items: center;
     flex-wrap: wrap;
 }
 
+.filter-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: var(--fondo-claro);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 2rem;
+    border: 1px solid var(--borde);
+}
+
 .filter-container label {
-    color: var(--text-light);
+    color: var(--texto-blanco);
     font-weight: bold;
 }
 
 .filter-container select,
-.filter-container input[type="text"] {
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    background: var(--background-dark);
-    color: var(--text-light);
-    border-radius: 5px;
-}
-
-.filter-container button {
-    background: var(--gradient-secondary);
-    border: none;
+.filter-container input {
     padding: 0.5rem 1rem;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
+    border: 1px solid var(--borde);
+    border-radius: 4px;
+    background: var(--fondo-oscuro);
+    color: var(--texto-blanco);
+    font-size: 1rem;
 }
 
-/* Warframes Grid */
-.warframes-grid {
+/* ===== GRIDS ===== */
+.warframes-grid,
+.weapons-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.warframe-card {
-    background: var(--background-light);
-    border-radius: 10px;
-    padding: 1.5rem;
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
+.weapons-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
-.warframe-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
-}
-
-.warframe-card h3 {
-    color: var(--primary-color);
+/* ===== WEAPON CARDS ESPECÍFICOS ===== */
+.weapon-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 1rem;
-    font-size: 1.3rem;
 }
 
-.warframe-card .type {
-    background: var(--gradient-secondary);
-    color: white;
+.weapon-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    align-items: flex-end;
+}
+
+.weapon-category,
+.type {
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
     font-size: 0.8rem;
-    display: inline-block;
-    margin-bottom: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
 }
 
-.warframe-card .abilities {
+.category-primary,
+.type-assault {
+    background: var(--secundario);
+}
+
+.category-secondary,
+.type-support {
+    background: var(--primario);
+}
+
+.category-melee,
+.type-stealth {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.type-tank {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+
+.weapon-type {
+    font-size: 0.9rem;
+    color: var(--texto-gris);
+    text-transform: capitalize;
+}
+
+.weapon-description {
+    color: var(--texto-blanco);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* ===== STATS ===== */
+.weapon-stats,
+.weapon-stats-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
     margin-top: 1rem;
 }
 
-.warframe-card .abilities h4 {
-    color: var(--text-light);
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    width: 48%;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--borde);
+}
+
+.stat-name,
+.stat-label {
+    color: var(--texto-gris);
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    color: var(--primario);
+    font-weight: bold;
+}
+
+.weapon-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--borde);
+}
+
+.acquisition {
+    font-size: 0.9rem;
+    color: var(--texto-gris);
+}
+
+/* ===== ABILITIES ===== */
+.abilities h4 {
+    color: var(--texto-blanco);
     margin-bottom: 0.5rem;
     font-size: 1rem;
 }
 
-.warframe-card .abilities ul {
+.abilities ul {
     list-style: none;
     padding-left: 1rem;
 }
 
-.warframe-card .abilities li {
-    color: var(--text-muted);
+.abilities li {
+    color: var(--texto-gris);
     margin-bottom: 0.3rem;
     position: relative;
 }
 
-.warframe-card .abilities li::before {
+.abilities li::before {
     content: '▶';
-    color: var(--primary-color);
+    color: var(--primario);
     position: absolute;
     left: -1rem;
 }
 
-/* Modal */
-.warframe-details {
+/* ===== MODALES ===== */
+.warframe-details,
+.weapon-details-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -390,44 +515,196 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
 }
 
-.modal-content {
-    background: var(--background-light);
+.modal-content,
+.weapon-details-content {
+    background: var(--fondo-claro);
     padding: 2rem;
     border-radius: 10px;
     max-width: 600px;
-    max-height: 80vh;
+    width: 90%;
+    max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--borde);
 }
 
-.close {
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
+.weapon-details-header {
+    background: var(--gradiente-azul);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px 10px 0 0;
+    margin: -2rem -2rem 2rem -2rem;
+}
+
+.weapon-details-header h2 {
+    color: white;
+    margin: 0;
+}
+
+.close,
+.close-details {
+    background: none;
+    border: none;
+    color: white;
     font-size: 2rem;
-    color: var(--text-light);
     cursor: pointer;
-    transition: color 0.3s ease;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
-.close:hover {
-    color: var(--primary-color);
+.close:hover,
+.close-details:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
-/* Weapon Calculator */
-.weapon-calculator {
-    background: var(--background-light);
+/* ===== TABLAS ===== */
+.stats-table-container {
+    background: var(--fondo-claro);
     margin: 2rem;
     padding: 2rem;
     border-radius: 10px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--borde);
+}
+
+.stats-table-container h2 {
+    color: var(--primario);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.table-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--borde);
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--fondo-oscuro);
+    color: var(--texto-blanco);
+}
+
+.stats-table th {
+    background: var(--gradiente-azul);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.stats-table th.sorted {
+    background: var(--gradiente-naranja);
+}
+
+.stats-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--borde);
+    vertical-align: top;
+}
+
+.stats-table tr:hover {
+    background: var(--fondo-claro);
+}
+
+.warframe-name strong {
+    color: var(--primario);
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.warframe-name small {
+    color: var(--texto-gris);
+    font-size: 0.8rem;
+}
+
+.type-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.mastery-level {
+    font-weight: bold;
+    color: var(--primario);
+}
+
+.stat-health { color: #e74c3c; }
+.stat-shield { color: #3498db; }
+.stat-armor { color: #f39c12; }
+.stat-energy { color: #9b59b6; }
+.stat-speed { color: #2ecc71; }
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+}
+
+.btn-details {
+    background: var(--primario);
+    color: white;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.table-summary {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: var(--fondo-oscuro);
+    border-radius: 5px;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.table-summary p {
+    margin: 0;
+    color: var(--texto-gris);
+}
+
+.table-summary strong {
+    color: var(--primario);
+}
+
+/* ===== CALCULADORA ===== */
+.weapon-calculator {
+    background: var(--fondo-claro);
+    margin: 2rem;
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--borde);
 }
 
 .weapon-calculator h2 {
-    color: var(--primary-color);
+    color: var(--primario);
     margin-bottom: 1.5rem;
 }
 
@@ -440,122 +717,40 @@ main {
 }
 
 .calc-row label {
-    color: var(--text-light);
+    color: var(--texto-blanco);
     font-weight: bold;
 }
 
 .calc-row input {
     padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    background: var(--background-dark);
-    color: var(--text-light);
-    border-radius: 5px;
-}
-
-.calc-row input[type="range"] {
-    background: var(--primary-color);
+    border: 1px solid var(--borde);
+    background: var(--fondo-oscuro);
+    color: var(--texto-blanco);
+    border-radius: 4px;
 }
 
 #damage-result {
     margin-top: 1rem;
     padding: 1rem;
-    background: var(--background-dark);
+    background: var(--fondo-oscuro);
     border-radius: 5px;
-    border: 1px solid var(--border-color);
-    color: var(--primary-color);
+    border: 1px solid var(--borde);
+    color: var(--primario);
     font-weight: bold;
     font-size: 1.2rem;
 }
 
-/* Weapon Categories */
-.weapon-categories {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.category-tabs {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    justify-content: center;
-}
-
-.tab-button {
-    background: var(--background-light);
-    border: 1px solid var(--border-color);
-    padding: 1rem 2rem;
-    color: var(--text-light);
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-}
-
-.tab-button:hover,
-.tab-button.active {
-    background: var(--gradient-primary);
-    color: white;
-    border-color: var(--primary-color);
-}
-
-.weapons-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.weapon-card {
-    background: var(--background-light);
-    padding: 1.5rem;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease;
-}
-
-.weapon-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
-}
-
-.weapon-card h3 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.weapon-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
-.stat {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.3rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.stat-name {
-    color: var(--text-muted);
-}
-
-.stat-value {
-    color: var(--text-light);
-    font-weight: bold;
-}
-
-/* Weapon Comparison */
+/* ===== COMPARACIÓN ===== */
 .weapon-comparison {
-    background: var(--background-light);
+    background: var(--fondo-claro);
     margin: 2rem;
     padding: 2rem;
     border-radius: 10px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--borde);
 }
 
 .weapon-comparison h2 {
-    color: var(--primary-color);
+    color: var(--primario);
     margin-bottom: 1.5rem;
     text-align: center;
 }
@@ -575,186 +770,140 @@ main {
 }
 
 .weapon-select label {
-    color: var(--text-light);
+    color: var(--texto-blanco);
     font-weight: bold;
 }
 
 .weapon-select select {
     padding: 0.8rem;
-    border: 1px solid var(--border-color);
-    background: var(--background-dark);
-    color: var(--text-light);
-    border-radius: 5px;
+    border: 1px solid var(--borde);
+    background: var(--fondo-oscuro);
+    color: var(--texto-blanco);
+    border-radius: 4px;
 }
 
-/* Tabla de estadísticas */
-.stats-table-container {
-    background: var(--background-light);
+/* ===== NEWS SECTION ===== */
+.news-section {
+    background: var(--fondo-claro);
     margin: 2rem;
     padding: 2rem;
     border-radius: 10px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--borde);
 }
 
-.stats-table-container h2 {
-    color: var(--primary-color);
+.news-section h3 {
+    color: var(--primario);
     margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.news-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--borde);
+}
+
+.news-item:last-child {
+    border-bottom: none;
+}
+
+.news-item h4 {
+    color: var(--texto-blanco);
+    margin-bottom: 0.5rem;
+}
+
+.news-item p {
+    color: var(--texto-gris);
+    margin-bottom: 0.5rem;
+}
+
+.news-date {
+    color: var(--primario);
+    font-size: 0.9rem;
+}
+
+/* ===== MULTIMEDIA ACCESIBLE ===== */
+.showcase-image,
+.video-showcase {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.main-showcase {
+    max-width: 1200px;
+    margin: 0 auto;
     text-align: center;
 }
 
-.table-controls {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.table-controls button {
-    background: var(--gradient-secondary);
-    border: none;
-    padding: 0.5rem 1rem;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: transform 0.3s ease;
-}
-
-.table-controls button:hover {
-    transform: scale(1.05);
-}
-
-.table-responsive {
-    overflow-x: auto;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-}
-
-.stats-table {
+.main-showcase img,
+.video-container video {
     width: 100%;
-    border-collapse: collapse;
-    background: var(--background-dark);
-    color: var(--text-light);
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
 }
 
-.stats-table th {
-    background: var(--gradient-primary);
-    color: white;
-    padding: 1rem;
-    text-align: left;
-    font-weight: bold;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    transition: background 0.3s ease;
+.main-showcase img:hover,
+.main-showcase img:focus,
+.video-container video:focus {
+    outline: 3px solid var(--primario);
+    outline-offset: 4px;
+    box-shadow: 0 12px 48px rgba(0, 212, 255, 0.5);
 }
 
-.stats-table th.sorted {
-    background: var(--gradient-secondary);
+.main-showcase figcaption,
+.video-description {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid var(--primario);
 }
 
-.stats-table td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--border-color);
-    vertical-align: top;
+.main-showcase figcaption h3,
+.video-description h3 {
+    color: var(--primario);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
 }
 
-.stats-table tr:hover {
-    background: var(--background-light);
-}
-
-.warframe-name strong {
-    color: var(--primary-color);
-    display: block;
-    margin-bottom: 0.3rem;
-}
-
-.warframe-name small {
-    color: var(--text-muted);
-    font-size: 0.8rem;
-}
-
-.type-badge {
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.type-assault { background: var(--gradient-secondary); }
-.type-support { background: var(--gradient-primary); }
-.type-stealth { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
-.type-tank { background: linear-gradient(135deg, #27ae60, #2ecc71); }
-
-.mastery-level {
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-.stat-health { color: #e74c3c; }
-.stat-shield { color: #3498db; }
-.stat-armor { color: #f39c12; }
-.stat-energy { color: #9b59b6; }
-.stat-speed { color: #2ecc71; }
-
-.actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-direction: column;
-}
-
-.btn-details, .btn-favorite {
-    padding: 0.3rem 0.8rem;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-}
-
-.btn-details {
-    background: var(--gradient-primary);
-    color: white;
-}
-
-.btn-favorite {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-muted);
-}
-
-.btn-favorite.favorited {
-    color: #f1c40f;
-    border-color: #f1c40f;
-}
-
-.table-summary {
+.video-description details {
     margin-top: 1.5rem;
+}
+
+.video-description summary {
+    cursor: pointer;
+    padding: 0.5rem;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.video-description summary:hover,
+.video-description summary:focus {
+    background: rgba(0, 212, 255, 0.2);
+    outline: 2px solid var(--primario);
+}
+
+.transcript {
+    margin-top: 1rem;
     padding: 1rem;
-    background: var(--background-dark);
-    border-radius: 5px;
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    flex-wrap: wrap;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
 }
 
-.table-summary p {
-    margin: 0;
-    color: var(--text-muted);
+.transcript p {
+    margin-bottom: 0.5rem;
 }
 
-.table-summary strong {
-    color: var(--primary-color);
-}
-
-/* Notificaciones */
+/* ===== NOTIFICACIONES ===== */
 .notification {
     position: fixed;
     top: 100px;
     right: 20px;
-    background: var(--gradient-primary);
+    background: var(--gradiente-azul);
     color: white;
     padding: 1rem 1.5rem;
     border-radius: 5px;
@@ -767,479 +916,31 @@ main {
     transform: translateX(0);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .table-controls {
-        justify-content: flex-start;
-    }
-    
-    .table-summary {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .actions {
-        flex-direction: row;
-    }
-}
-
-/* Arsenal específico */
-.weapons-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.weapon-card {
-    background: var(--background-light);
-    border-radius: 10px;
-    padding: 1.5rem;
-    border: 1px solid var(--border-color);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.weapon-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    border-color: var(--primary-color);
-}
-
-.weapon-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.weapon-header h3 {
-    color: var(--primary-color);
-    margin: 0;
-    font-size: 1.3rem;
-}
-
-.weapon-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    align-items: flex-end;
-}
-
-.weapon-category {
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.category-primary {
-    background: var(--gradient-secondary);
-    color: white;
-}
-
-.category-secondary {
-    background: var(--gradient-primary);
-    color: white;
-}
-
-.category-melee {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-}
-
-.weapon-type {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    text-transform: capitalize;
-}
-
-.weapon-description {
-    color: var(--text-light);
-    margin-bottom: 1rem;
-    line-height: 1.5;
-}
-
-.weapon-stats-preview {
-    margin-bottom: 1rem;
-}
-
-.stat-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-}
-
-.stat {
-    display: flex;
-    justify-content: space-between;
-    width: 48%;
-}
-
-.stat-label {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-.stat-value {
-    color: var(--primary-color);
-    font-weight: bold;
-}
-
-.weapon-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
-}
-
-.acquisition {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-.btn-favorite {
-    background: none;
-    border: 1px solid var(--border-color);
-    color: var(--text-muted);
-    padding: 0.5rem;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-}
-
-.btn-favorite:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-.btn-favorite.favorited {
-    color: #f1c40f;
-    border-color: #f1c40f;
-    background: rgba(241, 196, 15, 0.1);
-}
-
-/* Filtros */
-.filters {
-    text-align: center;
-    padding: 2rem;
-    background: var(--background-light);
-    margin: 2rem;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-}
-
-.filters h2 {
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-}
-
-.filter-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    background: var(--background-dark);
-    color: var(--text-light);
-    border: 1px solid var(--border-color);
-    padding: 0.8rem 1.5rem;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
-}
-
-.filter-btn:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-.filter-btn.active {
-    background: var(--gradient-primary);
-    color: white;
-    border-color: transparent;
-}
-
-/* Modal de detalles de arma */
-.weapon-details-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 2000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-y: auto;
-}
-
-.weapon-details-content {
-    background: var(--background-light);
-    border-radius: 10px;
-    max-width: 600px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    border: 1px solid var(--border-color);
-}
-
-.weapon-details-header {
-    background: var(--gradient-primary);
-    padding: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 10px 10px 0 0;
-}
-
-.weapon-details-header h2 {
-    color: white;
-    margin: 0;
-}
-
-.close-details {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background 0.3s ease;
-}
-
-.close-details:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.weapon-details-body {
-    padding: 2rem;
-}
-
-.weapon-meta-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.meta-item {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.weapon-detailed-stats h3 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-
-.detailed-stat {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem;
-    background: var(--background-dark);
-    border-radius: 5px;
-}
-
-.stat-name {
-    color: var(--text-muted);
-}
-
-.weapon-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-.btn-favorite-large {
-    flex: 1;
-    padding: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    background: var(--gradient-primary);
-    color: white;
-}
-
-.btn-favorite-large.favorited {
-    background: linear-gradient(135deg, #f1c40f, #f39c12);
-}
-
-.btn-favorite-large:hover {
-    transform: scale(1.05);
-}
-
-/* Notificaciones */
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--gradient-primary);
-    color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 5px;
-    z-index: 3000;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-}
-
-.notification.show {
-    transform: translateX(0);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .weapons-grid {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-    
-    .filter-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .filter-btn {
-        width: 200px;
-    }
-    
-    .weapon-meta-info {
-        grid-template-columns: 1fr;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .weapon-actions {
-        flex-direction: column;
-    }
-}
-
-/* Estilos para filtros y búsqueda */
-.filter-container {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    background: var(--background-light);
-    padding: 1.5rem;
-    border-radius: 10px;
-    margin: 2rem;
-    border: 1px solid var(--border-color);
-}
-
-.filter-container label {
-    color: var(--text-light);
-    font-weight: bold;
-}
-
-.filter-container select,
-.filter-container input {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    background: var(--background-dark);
-    color: var(--text-light);
-    font-size: 1rem;
-}
-
-.filter-container button {
-    background: var(--gradient-primary);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.3s ease;
-}
-
-.filter-container button:hover {
-    transform: scale(1.05);
-}
-
-/* Contador de resultados */
+/* ===== UTILIDADES ===== */
 .results-counter {
     text-align: center;
     margin: 1rem 0;
-    color: var(--text-muted);
+    color: var(--texto-gris);
 }
 
-/* Mensaje de sin resultados */
 .no-results {
     text-align: center;
     padding: 3rem;
-    color: var(--text-muted);
+    color: var(--texto-gris);
     grid-column: 1 / -1;
 }
 
 .no-results h3 {
-    color: var(--primary-color);
+    color: var(--primario);
     margin-bottom: 1rem;
 }
 
-.btn-reset {
-    background: var(--gradient-primary);
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 1rem;
-}
-
-/* Responsive para filtros */
-@media (max-width: 768px) {
-    .filter-container {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .filter-container > * {
-        width: 100%;
-        text-align: center;
-    }
-}
-
-/* Footer Styles */
+/* ===== FOOTER ===== */
 footer {
-    background: var(--background-light);
+    background: var(--fondo-claro);
     padding: 3rem 0;
     margin-top: 3rem;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--borde);
 }
 
 .footer-content {
@@ -1258,7 +959,7 @@ footer {
 }
 
 .footer-section h4 {
-    color: var(--primary-color);
+    color: var(--primario);
     margin-bottom: 1.5rem;
     font-size: 1.2rem;
 }
@@ -1272,13 +973,13 @@ footer {
 }
 
 .footer-section a {
-    color: var(--text-light);
+    color: var(--texto-blanco);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .footer-section a:hover {
-    color: var(--primary-color);
+    color: var(--primario);
 }
 
 .social-links a {
@@ -1288,193 +989,75 @@ footer {
 }
 
 .footer-section p {
-    color: var(--text-muted);
+    color: var(--texto-gris);
     margin-top: 1rem;
-}
-/* ===== ESTILOS DE ACCESIBILIDAD ===== */
-
-/* Skip Link */
-.skip-link {
-    position: absolute;
-    top: -40px;
-    left: 6px;
-    background: var(--color-primario);
-    color: var(--color-fondo);
-    padding: 8px;
-    text-decoration: none;
-    border-radius: 4px;
-    z-index: 2000;
-    transition: top 0.3s;
-}
-
-.skip-link:focus {
-    top: 6px;
-}
-
-/* Screen Reader Only */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* Focus Styles */
-*:focus {
-    outline: 2px solid var(--color-primario);
-    outline-offset: 2px;
-}
-
-button:focus,
-a:focus,
-input:focus,
-select:focus {
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.3);
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-    :root {
-        --color-fondo: #000000;
-        --color-texto: #ffffff;
-        --color-primario: #00ffff;
-        --color-borde: #ffffff;
-    }
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* ===== ESTILOS PARA IMAGEN ACCESIBLE ===== */
-.showcase-image {
-    padding: 4rem 2rem;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}
-
-.main-showcase {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.main-showcase img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.main-showcase img:hover,
-.main-showcase img:focus {
-    transform: scale(1.02);
-    box-shadow: 0 12px 48px rgba(0, 212, 255, 0.5);
-    outline: 3px solid var(--color-primario);
-    outline-offset: 4px;
-}
-
-.main-showcase figcaption {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: rgba(0, 212, 255, 0.1);
-    border-radius: 8px;
-    border-left: 4px solid var(--color-primario);
-}
-
-.main-showcase figcaption h3 {
-    color: var(--color-primario);
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
-}
-
-/* ===== ESTILOS PARA VIDEO ACCESIBLE ===== */
-.video-showcase {
-    padding: 4rem 2rem;
-    background: var(--color-fondo-secundario);
-}
-
-.video-container {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.video-container video {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transition: box-shadow 0.3s ease;
-}
-
-.video-container video:focus {
-    outline: 3px solid var(--color-primario);
-    outline-offset: 4px;
-    box-shadow: 0 12px 48px rgba(0, 212, 255, 0.4);
-}
-
-.video-description {
-    margin-top: 2rem;
-    padding: 2rem;
-    background: rgba(0, 212, 255, 0.05);
-    border-radius: 8px;
-    text-align: left;
-    border: 1px solid rgba(0, 212, 255, 0.2);
-}
-
-.video-description h3 {
-    color: var(--color-primario);
-    margin-bottom: 1rem;
-}
-
-.video-description details {
-    margin-top: 1.5rem;
-}
-
-.video-description summary {
-    cursor: pointer;
-    padding: 0.5rem;
-    background: rgba(0, 212, 255, 0.1);
-    border-radius: 4px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.video-description summary:hover,
-.video-description summary:focus {
-    background: rgba(0, 212, 255, 0.2);
-    outline: 2px solid var(--color-primario);
-}
-
-.transcript {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    font-family: monospace;
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-
-.transcript p {
-    margin-bottom: 0.5rem;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .warframes-grid,
+    .weapons-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .filter-buttons,
+    .category-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-container > * {
+        width: 100%;
+        text-align: center;
+    }
+    
+    nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .hamburger {
+        display: flex;
+    }
+    
+    .table-controls {
+        justify-content: flex-start;
+    }
+    
+    .table-summary {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .actions {
+        flex-direction: row;
+    }
+    
+    .weapon-meta-info,
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .weapon-actions {
+        flex-direction: column;
+    }
+    
     .showcase-image,
     .video-showcase {
         padding: 2rem 1rem;
@@ -1484,16 +1067,16 @@ select:focus {
     .video-description {
         padding: 1rem;
     }
-    
-    .video-container video {
-        height: auto;
-    }
 }
 
-/* ===== ACCESIBILIDAD ADICIONAL ===== */
+/* ===== PREFERENCIAS DE USUARIO ===== */
 @media (prefers-reduced-motion: reduce) {
-    .main-showcase img {
-        transition: none;
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
     
     .main-showcase img:hover,
@@ -1502,8 +1085,14 @@ select:focus {
     }
 }
 
-/* High contrast mode */
 @media (prefers-contrast: high) {
+    :root {
+        --fondo-oscuro: #000000;
+        --texto-blanco: #ffffff;
+        --primario: #00ffff;
+        --borde: #ffffff;
+    }
+    
     .main-showcase figcaption,
     .video-description {
         background: #000000;
