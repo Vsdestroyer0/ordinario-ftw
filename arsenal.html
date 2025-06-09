@@ -7,73 +7,160 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
+    <!-- Skip Navigation Link -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <!-- Live Region for Filter Updates -->
+    <div id="weapon-announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+    
+    <header role="banner">
+        <nav class="navbar" role="navigation" aria-label="Navegación principal">
             <div class="nav-brand">
                 <h1>Warframe Arsenal</h1>
             </div>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="warframes.html">Warframes</a></li>
-                <li><a href="arsenal.html" class="active">Arsenal</a></li>
+            <button class="hamburger" 
+                    tabindex="0" 
+                    role="button" 
+                    aria-label="Abrir menú de navegación móvil"
+                    aria-expanded="false"
+                    aria-controls="nav-menu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none">
+                    <a href="index.html" 
+                       tabindex="0" 
+                       role="menuitem"
+                       aria-label="Ir a página de inicio">Inicio</a>
+                </li>
+                <li role="none">
+                    <a href="warframes.html" 
+                       tabindex="0" 
+                       role="menuitem"
+                       aria-label="Ir a página de Warframes">Warframes</a>
+                </li>
+                <li role="none">
+                    <a href="arsenal.html" 
+                       class="active" 
+                       tabindex="0" 
+                       role="menuitem"
+                       aria-current="page"
+                       aria-label="Arsenal - Página actual">Arsenal</a>
+                </li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <section class="hero-section">
+    <main id="main-content" role="main">
+        <section class="hero-section" role="banner" aria-labelledby="hero-title">
             <div class="hero-content">
-                <h1>Arsenal de Armas</h1>
+                <h1 id="hero-title">Arsenal de Armas</h1>
                 <p>Descubre y compara las mejores armas del Sistema Solar</p>
             </div>
         </section>
 
-        <section class="filters">
-            <h2>Filtrar por Categoría</h2>
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterWeapons('all')">Todas</button>
-                <button class="filter-btn" onclick="filterWeapons('primary')">Primarias</button>
-                <button class="filter-btn" onclick="filterWeapons('secondary')">Secundarias</button>
-                <button class="filter-btn" onclick="filterWeapons('melee')">Cuerpo a Cuerpo</button>
+        <section class="filters" 
+                 role="toolbar" 
+                 aria-labelledby="filter-title">
+            <h2 id="filter-title">Filtrar por Categoría</h2>
+            <div class="filter-buttons" 
+                 role="group" 
+                 aria-labelledby="filter-title"
+                 aria-describedby="filter-help">
+                <button class="filter-btn active" 
+                        onclick="filterWeapons('all')" 
+                        tabindex="0"
+                        aria-pressed="true"
+                        aria-describedby="all-count">Todas</button>
+                <div id="all-count" class="sr-only">Mostrando todas las armas disponibles</div>
+                
+                <button class="filter-btn" 
+                        onclick="filterWeapons('primary')" 
+                        tabindex="0"
+                        aria-pressed="false"
+                        aria-describedby="primary-count">Primarias</button>
+                <div id="primary-count" class="sr-only">Filtrar solo armas primarias</div>
+                
+                <button class="filter-btn" 
+                        onclick="filterWeapons('secondary')" 
+                        tabindex="0"
+                        aria-pressed="false"
+                        aria-describedby="secondary-count">Secundarias</button>
+                <div id="secondary-count" class="sr-only">Filtrar solo armas secundarias</div>
+                
+                <button class="filter-btn" 
+                        onclick="filterWeapons('melee')" 
+                        tabindex="0"
+                        aria-pressed="false"
+                        aria-describedby="melee-count">Cuerpo a Cuerpo</button>
+                <div id="melee-count" class="sr-only">Filtrar solo armas cuerpo a cuerpo</div>
+            </div>
+            <div id="filter-help" class="sr-only">
+                Usa estos botones para filtrar las armas por categoría
             </div>
         </section>
 
-        <section class="weapons-section">
-            <div id="weapons-container" class="weapons-grid">
+        <section class="weapons-section" 
+                 role="region" 
+                 aria-labelledby="weapons-title">
+            <h2 id="weapons-title" class="sr-only">Lista de Armas</h2>
+            <div id="weapons-container" 
+                 class="weapons-grid"
+                 role="grid"
+                 aria-labelledby="weapons-title"
+                 aria-live="polite">
                 <!-- Las armas se cargan dinámicamente desde XML -->
             </div>
         </section>
-        <footer>
+        
+        <footer role="contentinfo">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Enlaces Rápidos</h4>
-                    <ul>
-                        <li><a href="warframes.html">Warframes</a></li>
-                        <li><a href="arsenal.html">Arsenal</a></li>
-                        <li><a href="https://www.warframe.com/report" target="_blank">Reportar Bug</a></li>
+                <nav class="footer-section" 
+                     role="navigation" 
+                     aria-labelledby="quick-links-title">
+                    <h4 id="quick-links-title">Enlaces Rápidos</h4>
+                    <ul role="list">
+                        <li><a href="warframes.html" 
+                               tabindex="0"
+                               aria-label="Ir a página de Warframes">Warframes</a></li>
+                        <li><a href="arsenal.html" 
+                               tabindex="0"
+                               aria-label="Recargar página de Arsenal">Arsenal</a></li>
+                        <li><a href="https://www.warframe.com/report" 
+                               target="_blank" 
+                               tabindex="0"
+                               aria-label="Reportar bug - Se abre en nueva ventana">Reportar Bug</a></li>
                     </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <ul class="social-links">
-                        <li><a href="mailto:ggmen@outlook.com">✉ Email</a></li>
-                        <li><a href="https://twitter.com/Warframe" target="_blank">🐦 Twitter</a></li>
-                        <li><a href="https://discord.gg/warframe" target="_blank">💬 Discord</a></li>
+                </nav>
+                
+                <nav class="footer-section" 
+                     role="navigation" 
+                     aria-labelledby="contact-title">
+                    <h4 id="contact-title">Contacto</h4>
+                    <ul class="social-links" role="list">
+                        <li><a href="mailto:ggmen@outlook.com" 
+                               tabindex="0"
+                               aria-label="Enviar email a ggmen@outlook.com">✉ Email</a></li>
+                        <li><a href="https://twitter.com/Warframe" 
+                               target="_blank" 
+                               tabindex="0"
+                               aria-label="Seguir en Twitter - Se abre en nueva ventana">🐦 Twitter</a></li>
+                        <li><a href="https://discord.gg/warframe" 
+                               target="_blank" 
+                               tabindex="0"
+                               aria-label="Unirse al Discord - Se abre en nueva ventana">💬 Discord</a></li>
                     </ul>
-                </div>
-                <div class="footer-section">
+                </nav>
+                
+                <div class="footer-section" role="contentinfo">
                     <h4>Digital Extremes</h4>
                     <p>Página creada por: GGM</p>
-                    <p> 2025 - Fan Site no oficial</p>
+                    <p>© 2025 - Fan Site no oficial</p>
                 </div>
             </div>
         </footer>
-    
 
     <script src="js/arsenal.js"></script>
 </body>

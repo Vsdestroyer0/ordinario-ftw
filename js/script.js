@@ -1,425 +1,328 @@
-// Variables globales
-let warframesData = [];
-let currentSearchTerm = '';
-
-// Cargar datos XML al inicio
-document.addEventListener('DOMContentLoaded', function() {
-    loadWarframesFromXML();
-    setupEventListeners();
-});
-
-// Función para cargar datos desde XML
-async function loadWarframesFromXML() {
-    try {
-        const response = await fetch('data/warframes.xml');
-        const xmlText = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-        
-        parseWarframesXML(xmlDoc);
-        displayWarframes();
-        displayWarframeStatsTable();
-    } catch (error) {
-        console.error('Error loading XML:', error);
-        loadFallbackWarframes();
+// ===== DATOS DE WARFRAMES =====
+const warframesData = [
+    {
+        id: 'excalibur',
+        name: 'Excalibur',
+        type: 'assault',
+        description: 'El Warframe equilibrado perfecto para principiantes',
+        abilities: ['Slash Dash', 'Radial Blind', 'Radial Javelin', 'Exalted Blade'],
+        stats: { health: 300, shield: 225, armor: 225, energy: 150 }
+    },
+    {
+        id: 'mag',
+        name: 'Mag',
+        type: 'support',
+        description: 'Maestra de la manipulación magnética',
+        abilities: ['Pull', 'Magnetize', 'Polarize', 'Crush'],
+        stats: { health: 225, shield: 300, armor: 65, energy: 188 }
+    },
+    {
+        id: 'volt',
+        name: 'Volt',
+        type: 'assault',
+        description: 'Domina el poder de la electricidad',
+        abilities: ['Shock', 'Speed', 'Electric Shield', 'Discharge'],
+        stats: { health: 225, shield: 300, armor: 50, energy: 200 }
+    },
+    {
+        id: 'loki',
+        name: 'Loki',
+        type: 'stealth',
+        description: 'El maestro del engaño y la invisibilidad',
+        abilities: ['Decoy', 'Invisibility', 'Switch Teleport', 'Radial Disarm'],
+        stats: { health: 225, shield: 225, armor: 65, energy: 188 }
+    },
+    {
+        id: 'rhino',
+        name: 'Rhino',
+        type: 'tank',
+        description: 'Tanque imparable con gran resistencia',
+        abilities: ['Rhino Charge', 'Iron Skin', 'Roar', 'Rhino Stomp'],
+        stats: { health: 525, shield: 150, armor: 190, energy: 150 }
     }
-}
+];
 
-// Parsear XML y convertir a objetos JavaScript
-function parseWarframesXML(xmlDoc) {
-    const warframeNodes = xmlDoc.getElementsByTagName('warframe');
-    warframesData = [];
-    
-    for (let i = 0; i < warframeNodes.length; i++) {
-        const node = warframeNodes[i];
-        const warframe = {
-            id: node.getAttribute('id'),
-            type: node.getAttribute('type'),
-            mastery: parseInt(node.getAttribute('mastery')),
-            name: getXMLValue(node, 'name'),
-            description: getXMLValue(node, 'description'),
-            stats: {
-                health: parseInt(getXMLValue(node, 'stats health')),
-                shield: parseInt(getXMLValue(node, 'stats shield')),
-                armor: parseInt(getXMLValue(node, 'stats armor')),
-                energy: parseInt(getXMLValue(node, 'stats energy')),
-                speed: parseFloat(getXMLValue(node, 'stats speed'))
-            },
-            abilities: [],
-            acquisition: getXMLValue(node, 'acquisition'),
-            releaseDate: getXMLValue(node, 'release_date')
-        };
-        
-        // Parsear habilidades
-        const abilities = node.getElementsByTagName('ability');
-        for (let j = 0; j < abilities.length; j++) {
-            const ability = abilities[j];
-            warframe.abilities.push({
-                name: ability.getAttribute('name'),
-                energy: parseInt(ability.getAttribute('energy')),
-                description: ability.getAttribute('description')
-            });
-        }
-        
-        warframesData.push(warframe);
-    }
-}
+let filteredWarframes = [...warframesData];
 
-// FUNCIÓN DE BÚSQUEDA - SOLO POR NOMBRE
-function searchWarframes() {
-    const searchInput = document.getElementById('search-warframe');
-    currentSearchTerm = searchInput.value.toLowerCase().trim();
-    displayWarframes();
-}
-
-// FUNCIÓN PARA LIMPIAR FILTROS
-function resetFilters() {
-    currentSearchTerm = '';
-    document.getElementById('search-warframe').value = '';
-    displayWarframes();
-}
-
-// Mostrar Warframes con filtro de búsqueda aplicado
-function displayWarframes() {
+// ===== FUNCIONES DE RENDERIZADO ACCESIBLES =====
+function renderWarframes(warframes) {
     const container = document.getElementById('warframes-container');
+    const announcements = document.getElementById('filter-announcements');
+    
     if (!container) return;
     
-    // Filtrar solo por nombre
-    const filteredWarframes = warframesData.filter(warframe => {
-        if (currentSearchTerm === '') return true;
-        return warframe.name.toLowerCase().includes(currentSearchTerm);
-    });
+    // Limpiar contenedor
+    container.innerHTML = '';
     
-    // Mostrar mensaje si no hay resultados
-    if (filteredWarframes.length === 0 && currentSearchTerm !== '') {
+    if (warframes.length === 0) {
         container.innerHTML = `
-            <div class="no-results">
-                <h3>No se encontró ningún Warframe</h3>
-                <p>No hay Warframes que coincidan con "<strong>${currentSearchTerm}</strong>"</p>
-                <button onclick="resetFilters()" class="btn-reset">Limpiar Búsqueda</button>
+            <div class="no-results" role="status" aria-live="polite" tabindex="0">
+                <h3>No se encontraron Warframes</h3>
+                <p>Intenta ajustar los filtros de búsqueda</p>
             </div>
         `;
-        updateResultsCounter(0);
+        
+        // Anunciar resultado
+        if (announcements) {
+            announcements.textContent = 'No se encontraron Warframes con los filtros aplicados';
+        }
         return;
     }
     
-    // Mostrar Warframes filtrados
-    container.innerHTML = filteredWarframes.map(warframe => `
-        <div class="warframe-card" onclick="showWarframeDetails('${warframe.id}')">
-            <h3>${highlightSearchTerm(warframe.name, currentSearchTerm)}</h3>
-            <span class="type type-${warframe.type}">${capitalizeFirst(warframe.type)}</span>
-            <p>${warframe.description}</p>
-            <div class="stats-preview">
-                <div class="stat">
-                    <span>Salud:</span>
-                    <span>${warframe.stats.health}</span>
-                </div>
-                <div class="stat">
-                    <span>Escudo:</span>
-                    <span>${warframe.stats.shield}</span>
-                </div>
-                <div class="stat">
-                    <span>Maestría:</span>
-                    <span>MR ${warframe.mastery}</span>
-                </div>
-            </div>
-            <div class="abilities">
-                <h4>Habilidades:</h4>
-                <ul>
-                    ${warframe.abilities.map(ability => `<li>${ability.name}</li>`).join('')}
-                </ul>
-            </div>
-        </div>
-    `).join('');
-    
-    // Actualizar contador de resultados
-    updateResultsCounter(filteredWarframes.length);
-}
-
-// Resaltar término de búsqueda en el nombre
-function highlightSearchTerm(text, searchTerm) {
-    if (!searchTerm) return text;
-    
-    const regex = new RegExp(`(${searchTerm})`, 'gi');
-    return text.replace(regex, '<mark>$1</mark>');
-}
-
-// Actualizar contador de resultados
-function updateResultsCounter(count) {
-    let counterElement = document.getElementById('results-counter');
-    if (!counterElement) {
-        // Crear contador si no existe
-        counterElement = document.createElement('div');
-        counterElement.id = 'results-counter';
-        counterElement.className = 'results-counter';
+    // Crear grid de warframes
+    warframes.forEach((warframe, index) => {
+        const warframeCard = document.createElement('article');
+        warframeCard.className = 'warframe-card';
         
-        const filtersSection = document.querySelector('.filters');
-        filtersSection.appendChild(counterElement);
-    }
-    
-    if (currentSearchTerm === '') {
-        counterElement.innerHTML = `<p>Mostrando todos los <strong>${warframesData.length}</strong> Warframes</p>`;
-    } else {
-        counterElement.innerHTML = `<p>Encontrados <strong>${count}</strong> de <strong>${warframesData.length}</strong> Warframes</p>`;
-    }
-}
-
-// Mostrar detalles de Warframe
-function showWarframeDetails(warframeId) {
-    const warframe = warframesData.find(w => w.id === warframeId);
-    if (!warframe) return;
-    
-    const modal = document.getElementById('warframe-modal');
-    const modalBody = document.getElementById('modal-body');
-    
-    modalBody.innerHTML = `
-        <div class="warframe-details">
-            <div class="warframe-header-detail">
-                <h2>${warframe.name}</h2>
-                <span class="type-badge type-${warframe.type}">${capitalizeFirst(warframe.type)}</span>
+        // ✅ ATRIBUTOS DE ACCESIBILIDAD
+        warframeCard.setAttribute('tabindex', '0');
+        warframeCard.setAttribute('role', 'button');
+        warframeCard.setAttribute('aria-labelledby', `warframe-${warframe.id}-title`);
+        warframeCard.setAttribute('aria-describedby', `warframe-${warframe.id}-desc warframe-${warframe.id}-type`);
+        warframeCard.setAttribute('data-warframe-id', warframe.id);
+        
+        warframeCard.innerHTML = `
+            <div class="warframe-image" role="img" aria-label="Imagen de ${warframe.name}">
+                <div class="warframe-placeholder"></div>
             </div>
-            
-            <p class="warframe-description-detail">${warframe.description}</p>
-            
-            <div class="warframe-info-grid">
-                <div class="info-section">
-                    <h3>Estadísticas Base</h3>
-                    <div class="stats-detailed">
-                        <div class="stat-item">
-                            <span class="stat-name">Salud:</span>
-                            <span class="stat-value">${warframe.stats.health}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Escudo:</span>
-                            <span class="stat-value">${warframe.stats.shield}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Armadura:</span>
-                            <span class="stat-value">${warframe.stats.armor}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Energía:</span>
-                            <span class="stat-value">${warframe.stats.energy}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Velocidad:</span>
-                            <span class="stat-value">${warframe.stats.speed}</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Maestría:</span>
-                            <span class="stat-value">MR ${warframe.mastery}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="info-section">
-                    <h3>Habilidades</h3>
-                    <div class="abilities-detailed">
-                        ${warframe.abilities.map((ability, index) => `
-                            <div class="ability-item">
-                                <div class="ability-header">
-                                    <span class="ability-number">${index + 1}</span>
-                                    <span class="ability-name">${ability.name}</span>
-                                    <span class="ability-energy">${ability.energy} Energía</span>
-                                </div>
-                                <p class="ability-description">${ability.description}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
+            <div class="warframe-info">
+                <h3 id="warframe-${warframe.id}-title">${warframe.name}</h3>
+                <p id="warframe-${warframe.id}-desc">${warframe.description}</p>
+                <span id="warframe-${warframe.id}-type" class="warframe-type ${warframe.type}">
+                    ${getTypeDisplayName(warframe.type)}
+                </span>
             </div>
-            
-            <div class="warframe-meta">
-                <div class="meta-item">
-                    <strong>Obtención:</strong> ${warframe.acquisition}
-                </div>
-                <div class="meta-item">
-                    <strong>Fecha de Lanzamiento:</strong> ${formatDate(warframe.releaseDate)}
-                </div>
-            </div>
-            
-            <div class="warframe-actions">
-                <button onclick="addToFavorites('${warframe.id}')" class="btn-favorite-large">
-                    Agregar a Favoritos
-                </button>
-                <button onclick="closeModal()" class="btn-close-large">
-                    Cerrar
-                </button>
-            </div>
-        </div>
-    `;
-    
-    modal.style.display = 'block';
-}
-
-// Cerrar modal
-function closeModal() {
-    const modal = document.getElementById('warframe-modal');
-    modal.style.display = 'none';
-}
-
-// Resto de funciones auxiliares...
-function capitalizeFirst(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('es-ES');
-}
-
-function getXMLValue(node, path) {
-    const parts = path.split(' ');
-    let current = node;
-    
-    for (const part of parts) {
-        const elements = current.getElementsByTagName(part);
-        if (elements.length > 0) {
-            current = elements[0];
-        } else {
-            return '';
-        }
-    }
-    
-    return current.textContent || current.innerText || '';
-}
-
-function addToFavorites(warframeId) {
-    let favorites = JSON.parse(localStorage.getItem('warframe_favorites') || '[]');
-    const warframe = warframesData.find(w => w.id === warframeId);
-    
-    if (!favorites.includes(warframeId)) {
-        favorites.push(warframeId);
-        localStorage.setItem('warframe_favorites', JSON.stringify(favorites));
-        showNotification(`${warframe.name} agregado a favoritos!`);
-    } else {
-        favorites = favorites.filter(id => id !== warframeId);
-        localStorage.setItem('warframe_favorites', JSON.stringify(favorites));
-        showNotification(`${warframe.name} removido de favoritos`);
-    }
-}
-
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 100);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
-
-// Tabla de estadísticas (manteniendo la funcionalidad existente)
-function displayWarframeStatsTable() {
-    const container = document.getElementById('warframe-stats-table');
-    if (!container) return;
-    
-    let tableHTML = `
-        <div class="stats-table-container">
-            <h2>Tabla Comparativa de Estadísticas</h2>
-            <div class="table-responsive">
-                <table id="warframes-table" class="stats-table">
-                    <thead>
-                        <tr>
-                            <th>Warframe</th>
-                            <th>Tipo</th>
-                            <th>Maestría</th>
-                            <th>Salud</th>
-                            <th>Escudo</th>
-                            <th>Armadura</th>
-                            <th>Energía</th>
-                            <th>Velocidad</th>
-                            <th>Obtención</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-    `;
-    
-    warframesData.forEach(warframe => {
-        tableHTML += `
-            <tr onclick="showWarframeDetails('${warframe.id}')" style="cursor: pointer;">
-                <td class="warframe-name">
-                    <strong>${warframe.name}</strong>
-                </td>
-                <td>
-                    <span class="type-badge type-${warframe.type}">${capitalizeFirst(warframe.type)}</span>
-                </td>
-                <td class="mastery-level">MR ${warframe.mastery}</td>
-                <td class="stat-health">${warframe.stats.health}</td>
-                <td class="stat-shield">${warframe.stats.shield}</td>
-                <td class="stat-armor">${warframe.stats.armor}</td>
-                <td class="stat-energy">${warframe.stats.energy}</td>
-                <td class="stat-speed">${warframe.stats.speed}</td>
-                <td class="acquisition">${warframe.acquisition}</td>
-            </tr>
         `;
-    });
-    
-    tableHTML += `
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    `;
-    
-    container.innerHTML = tableHTML;
-}
-
-function loadFallbackWarframes() {
-    warframesData = [
-        {
-            id: 'excalibur',
-            name: 'Excalibur',
-            type: 'assault',
-            mastery: 0,
-            description: 'El Warframe equilibrado perfecto para principiantes',
-            stats: { health: 300, shield: 300, armor: 225, energy: 150, speed: 1.0 },
-            abilities: [
-                { name: 'Slash Dash', energy: 25, description: 'Dash hacia adelante cortando enemigos' }
-            ],
-            acquisition: 'Inicial',
-            releaseDate: '2013-03-25'
-        }
-    ];
-    
-    displayWarframes();
-    displayWarframeStatsTable();
-}
-
-function setupEventListeners() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-    }
-    
-    const modal = document.getElementById('warframe-modal');
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
+        
+        // ✅ EVENT LISTENERS PARA TECLADO Y MOUSE
+        warframeCard.addEventListener('click', () => openWarframeModal(warframe));
+        warframeCard.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openWarframeModal(warframe);
             }
         });
+        
+        // ✅ FOCUS MANAGEMENT
+        warframeCard.addEventListener('focus', () => {
+            warframeCard.style.transform = 'scale(1.02)';
+        });
+        
+        warframeCard.addEventListener('blur', () => {
+            warframeCard.style.transform = 'scale(1)';
+        });
+        
+        container.appendChild(warframeCard);
+    });
+    
+    // Anunciar resultados
+    if (announcements) {
+        announcements.textContent = `Se encontraron ${warframes.length} Warframes`;
     }
 }
 
-// Funciones para los botones del index
-function showWelcomeMessage() {
-    showNotification('¡Bienvenido Tenno! Prepárate para defender el Sistema Solar.');
+// ===== MODAL ACCESIBLE =====
+function openWarframeModal(warframe) {
+    const modal = document.getElementById('warframe-modal');
+    const modalBody = document.getElementById('modal-body');
+    const announcements = document.getElementById('filter-announcements');
+    
+    if (!modal || !modalBody) return;
+    
+    // Guardar elemento con foco actual
+    window.lastFocusedElement = document.activeElement;
+    
+    modalBody.innerHTML = `
+        <div class="modal-warframe-content">
+            <h3 id="modal-title">${warframe.name}</h3>
+            <div id="modal-description">
+                <div class="warframe-details">
+                    <div class="warframe-image-large" role="img" aria-label="Imagen grande de ${warframe.name}">
+                        <div class="warframe-placeholder-large"></div>
+                    </div>
+                    
+                    <div class="warframe-stats" role="region" aria-labelledby="stats-title">
+                        <h4 id="stats-title">Estadísticas</h4>
+                        <ul role="list">
+                            <li>Salud: <span aria-label="${warframe.stats.health} puntos de salud">${warframe.stats.health}</span></li>
+                            <li>Escudo: <span aria-label="${warframe.stats.shield} puntos de escudo">${warframe.stats.shield}</span></li>
+                            <li>Armadura: <span aria-label="${warframe.stats.armor} puntos de armadura">${warframe.stats.armor}</span></li>
+                            <li>Energía: <span aria-label="${warframe.stats.energy} puntos de energía">${warframe.stats.energy}</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warframe-abilities" role="region" aria-labelledby="abilities-title">
+                        <h4 id="abilities-title">Habilidades</h4>
+                        <ul role="list">
+                            ${warframe.abilities.map((ability, index) => 
+                                `<li><strong>Habilidad ${index + 1}:</strong> ${ability}</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="warframe-description">
+                        <h4>Descripción</h4>
+                        <p>${warframe.description}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Mostrar modal
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    
+    // Enfocar el botón cerrar
+    const closeButton = modal.querySelector('.close');
+    if (closeButton) {
+        closeButton.focus();
+    }
+    
+    // Anunciar apertura del modal
+    if (announcements) {
+        announcements.textContent = `Se abrió la ventana de detalles de ${warframe.name}`;
+    }
+    
+    // Trap focus dentro del modal
+    trapFocus(modal);
 }
 
-function showMissionInfo() {
-    showNotification('Las misiones cooperativas te permiten unirte con hasta 3 jugadores para completar objetivos juntos.');
+// ===== CERRAR MODAL ACCESIBLE =====
+function closeModal() {
+    const modal = document.getElementById('warframe-modal');
+    const announcements = document.getElementById('filter-announcements');
+    
+    if (!modal) return;
+    
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    
+    // Restaurar foco al elemento anterior
+    if (window.lastFocusedElement) {
+        window.lastFocusedElement.focus();
+    }
+    
+    // Anunciar cierre
+    if (announcements) {
+        announcements.textContent = 'Se cerró la ventana de detalles';
+    }
+}
+
+// ===== TRAP FOCUS EN MODAL =====
+function trapFocus(element) {
+    const focusableElements = element.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+    
+    element.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            if (e.shiftKey) {
+                if (document.activeElement === firstFocusable) {
+                    lastFocusable.focus();
+                    e.preventDefault();
+                }
+            } else {
+                if (document.activeElement === lastFocusable) {
+                    firstFocusable.focus();
+                    e.preventDefault();
+                }
+            }
+        }
+        
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
+}
+
+// ===== FUNCIONES DE FILTRADO ACCESIBLES =====
+function filterWarframes() {
+    const typeFilter = document.getElementById('warframe-type');
+    const searchInput = document.getElementById('search-warframe');
+    const announcements = document.getElementById('filter-announcements');
+    
+    if (!typeFilter || !searchInput) return;
+    
+    const selectedType = typeFilter.value;
+    const searchTerm = searchInput.value.toLowerCase();
+    
+    filteredWarframes = warframesData.filter(warframe => {
+        const matchesType = selectedType === 'all' || warframe.type === selectedType;
+        const matchesSearch = warframe.name.toLowerCase().includes(searchTerm) ||
+                             warframe.description.toLowerCase().includes(searchTerm);
+        
+        return matchesType && matchesSearch;
+    });
+    
+    renderWarframes(filteredWarframes);
+    
+    // Anunciar filtrado
+    if (announcements) {
+        announcements.textContent = `Filtros aplicados. ${filteredWarframes.length} Warframes encontrados`;
+    }
+}
+
+function searchWarframes() {
+    filterWarframes();
+}
+
+function resetFilters() {
+    const typeFilter = document.getElementById('warframe-type');
+    const searchInput = document.getElementById('search-warframe');
+    const announcements = document.getElementById('filter-announcements');
+    
+    if (typeFilter) typeFilter.value = 'all';
+    if (searchInput) searchInput.value = '';
+    
+    filteredWarframes = [...warframesData];
+    renderWarframes(filteredWarframes);
+    
+    // Anunciar reset
+    if (announcements) {
+        announcements.textContent = 'Filtros eliminados. Mostrando todos los Warframes';
+    }
+}
+
+// ===== FUNCIÓN AUXILIAR =====
+function getTypeDisplayName(type) {
+    const typeNames = {
+        'assault': 'Asalto',
+        'support': 'Soporte',
+        'stealth': 'Sigilo',
+        'tank': 'Tanque'
+    };
+    return typeNames[type] || type;
+}
+
+// ===== INICIALIZACIÓN =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Cargar warframes si estamos en la página correcta
+    if (document.getElementById('warframes-container')) {
+        renderWarframes(warframesData);
+    }
+    
+    // Event listeners para cerrar modal con Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('warframe-modal');
+            if (modal && modal.style.display === 'block') {
+                closeModal();
+            }
+        }
+    });
+});
+
+// ===== FUNCIONES PARA INDEX.HTML =====
+function showWelcomeMessage() {
+    const announcements = document.getElementById('live-announcements');
+    if (announcements) {
+        announcements.textContent = '¡Bienvenido Tenno! Tu misión comienza ahora.';
+    }
+    alert('¡Bienvenido al universo Warframe, Tenno!');
 }
 
 function navigateToWarframes() {
@@ -430,92 +333,10 @@ function navigateToArsenal() {
     window.location.href = 'arsenal.html';
 }
 
-// Función mejorada de notificación (si no existe ya)
-function showNotification(message, duration = 3000) {
-    // Remover notificación existente si hay una
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
+function showMissionInfo() {
+    const announcements = document.getElementById('live-announcements');
+    if (announcements) {
+        announcements.textContent = 'Información de misiones cooperativas mostrada.';
     }
-    
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-message">${message}</span>
-            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
-        </div>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Mostrar notificación
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 100);
-    
-    // Ocultar automáticamente después del tiempo especificado
-    setTimeout(() => {
-        if (notification && notification.parentElement) {
-            notification.classList.remove('show');
-            setTimeout(() => {
-                if (notification && notification.parentElement) {
-                    notification.remove();
-                }
-            }, 300);
-        }
-    }, duration);
-}
-
-// Funciones adicionales para el index si las necesitas
-function showGameModes() {
-    const gameModes = [
-        "🎯 Exterminio - Elimina todos los enemigos",
-        "📦 Captura - Captura el objetivo y extrae",
-        "🛡️ Defensa - Protege el objetivo por ondas",
-        "🏃‍♂️ Supervivencia - Sobrevive el mayor tiempo posible",
-        "🔍 Espionaje - Infiltra y roba datos secretos",
-        "⚡ Sabotaje - Destruye objetivos enemigos"
-    ];
-    
-    const modesList = gameModes.join('\n');
-    showNotification(`Modos de Juego Disponibles:\n\n${modesList}`, 5000);
-}
-
-function showWarframeInfo() {
-    showNotification('Los Warframes son exoesqueletos bio-mecánicos controlados por los Tenno. Cada uno tiene habilidades únicas para diferentes estilos de combate.', 4000);
-}
-
-function showWeaponInfo() {
-    showNotification('Tu arsenal incluye armas primarias, secundarias y de combate cuerpo a cuerpo. Personalízalas con mods para maximizar su efectividad.', 4000);
-}
-
-// Función para mostrar consejos aleatorios
-function showRandomTip() {
-    const tips = [
-        "💡 Usa el parkour para moverte rápidamente por los mapas",
-        "⚔️ Combina diferentes tipos de daño elemental para mayor efectividad",
-        "🎯 Los ataques críticos pueden cambiar el rumbo de una batalla",
-        "🛡️ Algunos enemigos son inmunes a ciertos tipos de daño",
-        "⚡ Gestiona tu energía sabiamente para usar habilidades en momentos clave",
-        "🔄 Modifica tus armas según el tipo de misión",
-        "👥 El trabajo en equipo es clave en misiones difíciles",
-        "📈 Sube el nivel de maestría para acceder a mejores armas"
-    ];
-    
-    const randomTip = tips[Math.floor(Math.random() * tips.length)];
-    showNotification(randomTip, 4000);
-}
-
-// Función para mostrar estadísticas del juego
-function showGameStats() {
-    const stats = `
-    🌌 Sistema Solar: 18+ planetas explorables
-    ⚔️ Warframes: 50+ guerreros únicos
-    🔫 Armas: 500+ opciones de combate
-    👥 Jugadores: Millones de Tenno activos
-    🆓 Modelo: Free-to-play
-    `;
-    
-    showNotification(`Estadísticas de Warframe:\n${stats}`, 5000);
+    alert('Las misiones cooperativas te permiten jugar con hasta 3 amigos. ¡La cooperación es clave para la victoria!');
 }

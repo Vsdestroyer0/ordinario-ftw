@@ -7,79 +7,168 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <nav>
+    <!-- Skip Navigation Link -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <!-- Live Region for Filter Updates -->
+    <div id="filter-announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+    
+    <header role="banner">
+        <nav role="navigation" aria-label="Navegación principal">
             <div class="logo">
                 <h1>WARFRAME</h1>
             </div>
-            <ul class="nav-menu">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="warframes.html" class="active">Warframes</a></li>
-                <li><a href="arsenal.html">Arsenal</a></li>
+            <ul class="nav-menu" role="menubar">
+                <li role="none">
+                    <a href="index.html" 
+                       tabindex="0" 
+                       role="menuitem"
+                       aria-label="Ir a página de inicio">Inicio</a>
+                </li>
+                <li role="none">
+                    <a href="warframes.html" 
+                       class="active" 
+                       tabindex="0" 
+                       role="menuitem"
+                       aria-current="page"
+                       aria-label="Warframes - Página actual">Warframes</a>
+                </li>
+                <li role="none">
+                    <a href="arsenal.html" 
+                       tabindex="0" 
+                       role="menuitem"
+                       aria-label="Ir a página de arsenal">Arsenal</a>
+                </li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <button class="hamburger" 
+                    tabindex="0" 
+                    role="button" 
+                    aria-label="Abrir menú de navegación móvil"
+                    aria-expanded="false"
+                    aria-controls="nav-menu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </button>
         </nav>
     </header>
 
-    <main>
-        <section class="page-header">
-            <h1>Warframes Disponibles</h1>
+    <main id="main-content" role="main">
+        <section class="page-header" role="banner" aria-labelledby="page-title">
+            <h1 id="page-title">Warframes Disponibles</h1>
             <p>Descubre los diferentes Warframes y sus habilidades únicas</p>
         </section>
 
-        <section class="filters">
+        <section class="filters" 
+                 role="search" 
+                 aria-labelledby="filters-title">
+            <h2 id="filters-title" class="sr-only">Filtros de Búsqueda</h2>
             <div class="filter-container">
                 <label for="warframe-type">Filtrar por tipo:</label>
-                <select id="warframe-type" onchange="filterWarframes()">
+                <select id="warframe-type" 
+                        onchange="filterWarframes()" 
+                        tabindex="0"
+                        aria-describedby="type-help">
                     <option value="all">Todos</option>
                     <option value="assault">Asalto</option>
                     <option value="support">Soporte</option>
                     <option value="stealth">Sigilo</option>
                     <option value="tank">Tanque</option>
                 </select>
+                <div id="type-help" class="sr-only">
+                    Selecciona un tipo para filtrar los Warframes mostrados
+                </div>
                 
-                <input type="text" id="search-warframe" placeholder="Buscar Warframe..." oninput="searchWarframes()">
-                <button onclick="resetFilters()">Limpiar Filtros</button>
+                <label for="search-warframe" class="sr-only">Buscar Warframe por nombre</label>
+                <input type="text" 
+                       id="search-warframe" 
+                       placeholder="Buscar Warframe..." 
+                       oninput="searchWarframes()" 
+                       tabindex="0"
+                       aria-describedby="search-help"
+                       role="searchbox">
+                <div id="search-help" class="sr-only">
+                    Escribe el nombre del Warframe que buscas
+                </div>
+                
+                <button onclick="resetFilters()" 
+                        tabindex="0"
+                        aria-describedby="reset-help">Limpiar Filtros</button>
+                <div id="reset-help" class="sr-only">
+                    Elimina todos los filtros aplicados
+                </div>
             </div>
         </section>
 
-        <section class="warframes-grid" id="warframes-container">
+        <section class="warframes-grid" 
+                 id="warframes-container" 
+                 role="region"
+                 aria-labelledby="results-title"
+                 aria-live="polite">
+            <h2 id="results-title" class="sr-only">Resultados de Warframes</h2>
             <!-- Los Warframes se cargarán dinámicamente con JavaScript -->
         </section>
 
-        <aside class="warframe-details" id="warframe-modal" style="display: none;">
+        <aside class="warframe-details" 
+               id="warframe-modal" 
+               style="display: none;"
+               role="dialog"
+               aria-labelledby="modal-title"
+               aria-describedby="modal-description"
+               aria-modal="true">
             <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
+                <button class="close" 
+                        onclick="closeModal()" 
+                        tabindex="0" 
+                        role="button" 
+                        aria-label="Cerrar ventana de detalles">×</button>
                 <div id="modal-body">
-                    <!-- Contenido del modal se carga dinámicamente -->
+                    <h3 id="modal-title">Detalles del Warframe</h3>
+                    <div id="modal-description">
+                        <!-- Contenido del modal se carga dinámicamente -->
+                    </div>
                 </div>
             </div>
         </aside>
     </main>
 
-    <footer>
+    <footer role="contentinfo">
         <div class="footer-content">
-            <div class="footer-section">
-                <h4>Comunidad</h4>
-                <ul>
-                    <li><a href="#">Discord</a></li>
-                    <li><a href="#">Reddit</a></li>
-                    <li><a href="#">Forums</a></li>
+            <nav class="footer-section" 
+                 role="navigation" 
+                 aria-labelledby="community-title">
+                <h4 id="community-title">Comunidad</h4>
+                <ul role="list">
+                    <li><a href="#" 
+                           tabindex="0"
+                           aria-label="Unirse al Discord de la comunidad">Discord</a></li>
+                    <li><a href="#" 
+                           tabindex="0"
+                           aria-label="Visitar subreddit de Warframe">Reddit</a></li>
+                    <li><a href="#" 
+                           tabindex="0"
+                           aria-label="Acceder a los foros oficiales">Forums</a></li>
                 </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Soporte</h4>
-                <ul>
-                    <li><a href="#">Centro de Ayuda</a></li>
-                    <li><a href="#">Reportar Bug</a></li>
-                    <li><a href="#">Contacto</a></li>
+            </nav>
+            
+            <nav class="footer-section" 
+                 role="navigation" 
+                 aria-labelledby="support-title">
+                <h4 id="support-title">Soporte</h4>
+                <ul role="list">
+                    <li><a href="#" 
+                           tabindex="0"
+                           aria-label="Ir al centro de ayuda">Centro de Ayuda</a></li>
+                    <li><a href="#" 
+                           tabindex="0"
+                           aria-label="Reportar un error o bug">Reportar Bug</a></li>
+                    <li><a href="#" 
+                           tabindex="0"
+                           aria-label="Contactar soporte técnico">Contacto</a></li>
                 </ul>
-            </div>
-            <div class="footer-section">
+            </nav>
+            
+            <div class="footer-section" role="contentinfo">
                 <h4>Digital Extremes</h4>
                 <p>&copy; 2024 Digital Extremes Ltd. Todos los derechos reservados.</p>
             </div>

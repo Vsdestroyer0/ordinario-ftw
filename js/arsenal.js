@@ -1,322 +1,363 @@
-// Variables globales para arsenal
-let weaponsData = [];
-let currentWeaponFilter = 'all';
-let favoriteWeapons = JSON.parse(localStorage.getItem('favorite_weapons') || '[]');
-
-// Cargar datos al inicializar
-document.addEventListener('DOMContentLoaded', function() {
-    loadWeaponsFromXML();
-    setupArsenalEventListeners();
-});
-
-// Cargar armas desde XML
-async function loadWeaponsFromXML() {
-    try {
-        const response = await fetch('data/weapons.xml');
-        const xmlText = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-        
-        parseWeaponsXML(xmlDoc);
-        displayWeapons();
-    } catch (error) {
-        console.error('Error loading weapons XML:', error);
-        loadFallbackWeapons();
+// ===== DATOS DE ARMAS =====
+const weaponsData = [
+    {
+        id: 'braton-prime',
+        name: 'Braton Prime',
+        category: 'primary',
+        type: 'Rifle de Asalto',
+        damage: 34,
+        fireRate: 8.8,
+        accuracy: 28.6,
+        description: 'Versión mejorada del rifle Braton clásico'
+    },
+    {
+        id: 'soma-prime',
+        name: 'Soma Prime',
+        category: 'primary',
+        type: 'Rifle de Asalto',
+        damage: 12,
+        fireRate: 15,
+        accuracy: 28.6,
+        description: 'Rifle automático con alta cadencia de fuego'
+    },
+    {
+        id: 'lex-prime',
+        name: 'Lex Prime',
+        category: 'secondary',
+        type: 'Pistola',
+        damage: 140,
+        fireRate: 6.7,
+        accuracy: 26.7,
+        description: 'Pistola de alto calibre con gran poder de parada'
+    },
+    {
+        id: 'kunai',
+        name: 'Kunai',
+        category: 'secondary',
+        type: 'Arrojadiza',
+        damage: 245,
+        fireRate: 3.3,
+        accuracy: 100,
+        description: 'Arma arrojadiza silenciosa y precisa'
+    },
+    {
+        id: 'nikana-prime',
+        name: 'Nikana Prime',
+        category: 'melee',
+        type: 'Nikana',
+        damage: 264,
+        fireRate: 0.83,
+        accuracy: 100,
+        description: 'Katana ceremonial con cortes devastadores'
+    },
+    {
+        id: 'war',
+        name: 'War',
+        category: 'melee',
+        type: 'Espada Pesada',
+        damage: 350,
+        fireRate: 0.67,
+        accuracy: 100,
+        description: 'Espada de dos manos con poder destructivo'
     }
-}
+];
 
-// Parsear XML de armas
-function parseWeaponsXML(xmlDoc) {
-    const weaponNodes = xmlDoc.getElementsByTagName('weapon');
-    weaponsData = [];
-    
-    for (let i = 0; i < weaponNodes.length; i++) {
-        const node = weaponNodes[i];
-        const weapon = {
-            id: node.getAttribute('id'),
-            category: node.getAttribute('category'),
-            type: node.getAttribute('type'),
-            mastery: parseInt(node.getAttribute('mastery')),
-            name: getXMLValue(node, 'name'),
-            description: getXMLValue(node, 'description'),
-            stats: {},
-            acquisition: getXMLValue(node, 'acquisition'),
-            releaseDate: getXMLValue(node, 'release_date')
-        };
-        
-        // Parsear estadísticas
-        const statsNode = node.getElementsByTagName('stats')[0];
-        if (statsNode) {
-            const statElements = statsNode.children;
-            for (let j = 0; j < statElements.length; j++) {
-                const stat = statElements[j];
-                weapon.stats[stat.tagName] = parseFloat(stat.textContent);
-            }
-        }
-        
-        weaponsData.push(weapon);
-    }
-}
+let filteredWeapons = [...weaponsData];
+let currentFilter = 'all';
 
-// Mostrar armas filtradas
-function displayWeapons() {
+// ===== RENDERIZADO ACCESIBLE DE ARMAS =====
+function renderWeapons(weapons) {
     const container = document.getElementById('weapons-container');
+    const announcements = document.getElementById('weapon-announcements');
+    
     if (!container) return;
     
-    const filteredWeapons = weaponsData.filter(weapon => {
-        if (currentWeaponFilter === 'all') return true;
-        return weapon.category === currentWeaponFilter;
-    });
+    // Limpiar contenedor
+    container.innerHTML = '';
     
-    container.innerHTML = filteredWeapons.map(weapon => `
-        <div class="weapon-card" onclick="showWeaponDetails('${weapon.id}')">
-            <div class="weapon-header">
-                <h3>${weapon.name}</h3>
-                <div class="weapon-meta">
-                    <span class="weapon-category category-${weapon.category}">${capitalizeFirst(weapon.category)}</span>
-                    <span class="weapon-type">${weapon.type.replace('-', ' ')}</span>
-                </div>
+    if (weapons.length === 0) {
+        container.innerHTML = `
+            <div class="no-results" role="status" aria-live="polite" tabindex="0">
+                <h3>No se encontraron armas</h3>
+                <p>Intenta seleccionar una categoría diferente</p>
             </div>
-            <p class="weapon-description">${weapon.description}</p>
-            <div class="weapon-stats-preview">
-                <div class="stat-row">
+        `;
+        
+        // Anunciar resultado
+        if (announcements) {
+            announcements.textContent = 'No se encontraron armas en esta categoría';
+        }
+        return;
+    }
+    
+    // Crear grid de armas
+    weapons.forEach((weapon, index) => {
+        const weaponCard = document.createElement('article');
+        weaponCard.className = 'weapon-card';
+        
+        // ✅ ATRIBUTOS DE ACCESIBILIDAD
+        weaponCard.setAttribute('tabindex', '0');
+        weaponCard.setAttribute('role', 'button');
+        weaponCard.setAttribute('aria-labelledby', `weapon-${weapon.id}-title`);
+        weaponCard.setAttribute('aria-describedby', `weapon-${weapon.id}-desc weapon-${weapon.id}-stats`);
+        weaponCard.setAttribute('data-weapon-id', weapon.id);
+        weaponCard.setAttribute('data-category', weapon.category);
+        
+        weaponCard.innerHTML = `
+            <div class="weapon-image" role="img" aria-label="Imagen de ${weapon.name}">
+                <div class="weapon-placeholder"></div>
+            </div>
+            <div class="weapon-info">
+                <h3 id="weapon-${weapon.id}-title">${weapon.name}</h3>
+                <p id="weapon-${weapon.id}-desc">${weapon.description}</p>
+                <div id="weapon-${weapon.id}-stats" class="weapon-stats">
                     <div class="stat">
                         <span class="stat-label">Daño:</span>
-                        <span class="stat-value">${weapon.stats.damage}</span>
+                        <span class="stat-value" aria-label="${weapon.damage} puntos de daño">${weapon.damage}</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-label">Crítico:</span>
-                        <span class="stat-value">${weapon.stats.critical_chance}%</span>
+                        <span class="stat-label">Cadencia:</span>
+                        <span class="stat-value" aria-label="${weapon.fireRate} disparos por segundo">${weapon.fireRate}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Precisión:</span>
+                        <span class="stat-value" aria-label="${weapon.accuracy} por ciento de precisión">${weapon.accuracy}%</span>
                     </div>
                 </div>
-                <div class="stat-row">
-                    <div class="stat">
-                        <span class="stat-label">Estado:</span>
-                        <span class="stat-value">${weapon.stats.status_chance}%</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-label">Maestría:</span>
-                        <span class="stat-value">MR ${weapon.mastery}</span>
-                    </div>
-                </div>
+                <span class="weapon-type">${weapon.type}</span>
             </div>
-            <div class="weapon-footer">
-                <div class="acquisition">
-                    <strong>Obtención:</strong> ${weapon.acquisition}
-                </div>
-                <button class="btn-favorite ${favoriteWeapons.includes(weapon.id) ? 'favorited' : ''}" 
-                        onclick="event.stopPropagation(); toggleFavoriteWeapon('${weapon.id}')">
-                    ${favoriteWeapons.includes(weapon.id) ? '★' : '☆'}
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
-
-// Filtrar armas por categoría
-function filterWeapons(category) {
-    currentWeaponFilter = category;
-    
-    // Actualizar botones de filtro
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
+        `;
+        
+        // ✅ EVENT LISTENERS PARA TECLADO Y MOUSE
+        weaponCard.addEventListener('click', () => openWeaponModal(weapon));
+        weaponCard.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openWeaponModal(weapon);
+            }
+        });
+        
+        // ✅ FOCUS MANAGEMENT
+        weaponCard.addEventListener('focus', () => {
+            weaponCard.style.transform = 'scale(1.02)';
+            weaponCard.style.boxShadow = '0 4px 20px rgba(0, 212, 255, 0.3)';
+        });
+        
+        weaponCard.addEventListener('blur', () => {
+            weaponCard.style.transform = 'scale(1)';
+            weaponCard.style.boxShadow = 'none';
+        });
+        
+        container.appendChild(weaponCard);
     });
-    document.querySelector(`[onclick="filterWeapons('${category}')"]`).classList.add('active');
     
-    displayWeapons();
+    // Anunciar resultados
+    if (announcements) {
+        const categoryName = getCategoryDisplayName(currentFilter);
+        announcements.textContent = `Se encontraron ${weapons.length} armas en la categoría ${categoryName}`;
+    }
 }
 
-// Mostrar detalles de arma
-function showWeaponDetails(weaponId) {
-    const weapon = weaponsData.find(w => w.id === weaponId);
-    if (!weapon) return;
-    
-    const modal = document.createElement('div');
-    modal.className = 'weapon-details-modal';
-    modal.innerHTML = `
-        <div class="weapon-details-content">
-            <div class="weapon-details-header">
-                <h2>${weapon.name}</h2>
-                <button class="close-details" onclick="closeWeaponDetails()">&times;</button>
+// ===== MODAL DE ARMA ACCESIBLE =====
+function openWeaponModal(weapon) {
+    // Crear modal dinámico si no existe
+    let modal = document.getElementById('weapon-modal');
+    if (!modal) {
+        modal = document.createElement('aside');
+        modal.id = 'weapon-modal';
+        modal.className = 'weapon-details';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-labelledby', 'weapon-modal-title');
+        modal.setAttribute('aria-describedby', 'weapon-modal-description');
+        modal.setAttribute('aria-modal', 'true');
+        modal.style.display = 'none';
+        
+        modal.innerHTML = `
+            <div class="modal-content">
+                <button class="close" 
+                        onclick="closeWeaponModal()" 
+                        tabindex="0" 
+                        role="button" 
+                        aria-label="Cerrar ventana de detalles">×</button>
+                <div id="weapon-modal-body">
+                    <!-- Contenido dinámico -->
+                </div>
             </div>
-            <div class="weapon-details-body">
-                <div class="weapon-info">
-                    <p class="weapon-description">${weapon.description}</p>
-                    <div class="weapon-meta-info">
-                        <div class="meta-item">
-                            <strong>Categoría:</strong> ${capitalizeFirst(weapon.category)}
-                        </div>
-                        <div class="meta-item">
-                            <strong>Tipo:</strong> ${weapon.type.replace('-', ' ')}
-                        </div>
-                        <div class="meta-item">
-                            <strong>Maestría Requerida:</strong> MR ${weapon.mastery}
-                        </div>
-                        <div class="meta-item">
-                            <strong>Obtención:</strong> ${weapon.acquisition}
-                        </div>
-                        <div class="meta-item">
-                            <strong>Lanzamiento:</strong> ${formatDate(weapon.releaseDate)}
-                        </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+    
+    const modalBody = document.getElementById('weapon-modal-body');
+    const announcements = document.getElementById('weapon-announcements');
+    
+    // Guardar elemento con foco actual
+    window.lastFocusedElement = document.activeElement;
+    
+    modalBody.innerHTML = `
+        <div class="modal-weapon-content">
+            <h3 id="weapon-modal-title">${weapon.name}</h3>
+            <div id="weapon-modal-description">
+                <div class="weapon-details-full">
+                    <div class="weapon-image-large" role="img" aria-label="Imagen grande de ${weapon.name}">
+                        <div class="weapon-placeholder-large"></div>
                     </div>
-                </div>
-                <div class="weapon-detailed-stats">
-                    <h3>Estadísticas Detalladas</h3>
-                    <div class="stats-grid">
-                        ${Object.entries(weapon.stats).map(([stat, value]) => `
-                            <div class="detailed-stat">
-                                <span class="stat-name">${formatStatName(stat)}:</span>
-                                <span class="stat-value">${formatStatValue(stat, value)}</span>
-                            </div>
-                        `).join('')}
+                    
+                    <div class="weapon-stats-detailed" role="region" aria-labelledby="detailed-stats-title">
+                        <h4 id="detailed-stats-title">Estadísticas Detalladas</h4>
+                        <dl>
+                            <dt>Tipo:</dt>
+                            <dd>${weapon.type}</dd>
+                            <dt>Categoría:</dt>
+                            <dd>${getCategoryDisplayName(weapon.category)}</dd>
+                            <dt>Daño Base:</dt>
+                            <dd><span aria-label="${weapon.damage} puntos de daño base">${weapon.damage}</span></dd>
+                            <dt>Cadencia de Fuego:</dt>
+                            <dd><span aria-label="${weapon.fireRate} disparos por segundo">${weapon.fireRate}/s</span></dd>
+                            <dt>Precisión:</dt>
+                            <dd><span aria-label="${weapon.accuracy} por ciento de precisión">${weapon.accuracy}%</span></dd>
+                        </dl>
                     </div>
-                </div>
-                <div class="weapon-actions">
-                    <button onclick="toggleFavoriteWeapon('${weapon.id}')" 
-                            class="btn-favorite-large ${favoriteWeapons.includes(weapon.id) ? 'favorited' : ''}">
-                        ${favoriteWeapons.includes(weapon.id) ? 'Remover de Favoritos' : 'Agregar a Favoritos'}
-                    </button>
+                    
+                    <div class="weapon-description-full">
+                        <h4>Descripción</h4>
+                        <p>${weapon.description}</p>
+                    </div>
                 </div>
             </div>
         </div>
     `;
     
-    document.body.appendChild(modal);
+    // Mostrar modal
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    
+    // Enfocar el botón cerrar
+    const closeButton = modal.querySelector('.close');
+    if (closeButton) {
+        closeButton.focus();
+    }
+    
+    // Anunciar apertura del modal
+    if (announcements) {
+        announcements.textContent = `Se abrió la ventana de detalles de ${weapon.name}`;
+    }
+    
+    // Trap focus dentro del modal
+    trapFocusWeapon(modal);
 }
 
-// Cerrar detalles de arma
-function closeWeaponDetails() {
-    const modal = document.querySelector('.weapon-details-modal');
-    if (modal) {
-        modal.remove();
+// ===== CERRAR MODAL DE ARMA =====
+function closeWeaponModal() {
+    const modal = document.getElementById('weapon-modal');
+    const announcements = document.getElementById('weapon-announcements');
+    
+    if (!modal) return;
+    
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    
+    // Restaurar foco al elemento anterior
+    if (window.lastFocusedElement) {
+        window.lastFocusedElement.focus();
+    }
+    
+    // Anunciar cierre
+    if (announcements) {
+        announcements.textContent = 'Se cerró la ventana de detalles del arma';
     }
 }
 
-// Toggle favorito de arma
-function toggleFavoriteWeapon(weaponId) {
-    const index = favoriteWeapons.indexOf(weaponId);
-    const weapon = weaponsData.find(w => w.id === weaponId);
+// ===== TRAP FOCUS EN MODAL DE ARMA =====
+function trapFocusWeapon(element) {
+    const focusableElements = element.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
     
-    if (index === -1) {
-        favoriteWeapons.push(weaponId);
-        showNotification(`${weapon.name} agregado a favoritos!`);
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+    
+    element.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            if (e.shiftKey) {
+                if (document.activeElement === firstFocusable) {
+                    lastFocusable.focus();
+                    e.preventDefault();
+                }
+            } else {
+                if (document.activeElement === lastFocusable) {
+                    firstFocusable.focus();
+                    e.preventDefault();
+                }
+            }
+        }
+        
+        if (e.key === 'Escape') {
+            closeWeaponModal();
+        }
+    });
+}
+
+// ===== FILTRADO ACCESIBLE DE ARMAS =====
+function filterWeapons(category) {
+    currentFilter = category;
+    const announcements = document.getElementById('weapon-announcements');
+    
+    // Actualizar botones activos
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+    });
+    
+    // Activar botón seleccionado
+    const activeButton = document.querySelector(`[onclick="filterWeapons('${category}')"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+        activeButton.setAttribute('aria-pressed', 'true');
+    }
+    
+    // Filtrar armas
+    if (category === 'all') {
+        filteredWeapons = [...weaponsData];
     } else {
-        favoriteWeapons.splice(index, 1);
-        showNotification(`${weapon.name} removido de favoritos`);
+        filteredWeapons = weaponsData.filter(weapon => weapon.category === category);
     }
     
-    localStorage.setItem('favorite_weapons', JSON.stringify(favoriteWeapons));
-    displayWeapons(); // Actualizar vista
+    renderWeapons(filteredWeapons);
     
-    // Actualizar botón en modal si está abierto
-    const favoriteBtn = document.querySelector('.btn-favorite-large');
-    if (favoriteBtn) {
-        const isFavorited = favoriteWeapons.includes(weaponId);
-        favoriteBtn.textContent = isFavorited ? 'Remover de Favoritos' : 'Agregar a Favoritos';
-        favoriteBtn.className = `btn-favorite-large ${isFavorited ? 'favorited' : ''}`;
+    // Anunciar filtrado
+    if (announcements) {
+        const categoryName = getCategoryDisplayName(category);
+        announcements.textContent = `Filtro aplicado: ${categoryName}. ${filteredWeapons.length} armas encontradas`;
     }
 }
 
-// Event listeners
-function setupArsenalEventListeners() {
-    // Hamburger menu
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-    }
-}
-
-// Funciones auxiliares
-function capitalizeFirst(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('es-ES');
-}
-
-function formatStatName(stat) {
-    const names = {
-        'damage': 'Daño',
-        'critical_chance': 'Prob. Crítica',
-        'critical_multiplier': 'Mult. Crítico',
-        'status_chance': 'Prob. Estado',
-        'fire_rate': 'Cadencia',
-        'attack_speed': 'Vel. Ataque',
-        'accuracy': 'Precisión',
-        'magazine': 'Cargador',
-        'reload_time': 'Recarga',
-        'range': 'Alcance',
-        'slide_attack': 'Ataque Deslizante',
-        'heavy_attack': 'Ataque Pesado'
+// ===== FUNCIÓN AUXILIAR =====
+function getCategoryDisplayName(category) {
+    const categoryNames = {
+        'all': 'Todas las categorías',
+        'primary': 'Armas Primarias',
+        'secondary': 'Armas Secundarias',
+        'melee': 'Armas Cuerpo a Cuerpo'
     };
-    return names[stat] || stat;
+    return categoryNames[category] || category;
 }
 
-function formatStatValue(stat, value) {
-    if (stat.includes('chance')) {
-        return value + '%';
-    } else if (stat === 'critical_multiplier') {
-        return value + 'x';
-    } else if (stat.includes('time')) {
-        return value + 's';
-    } else if (stat.includes('rate') || stat.includes('speed')) {
-        return value + '/s';
-    }
-    return value.toString();
-}
-
-function getXMLValue(node, path) {
-    const parts = path.split(' ');
-    let current = node;
-    
-    for (const part of parts) {
-        const elements = current.getElementsByTagName(part);
-        if (elements.length > 0) {
-            current = elements[0];
-        } else {
-            return '';
-        }
+// ===== INICIALIZACIÓN =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Cargar armas si estamos en la página correcta
+    if (document.getElementById('weapons-container')) {
+        renderWeapons(weaponsData);
     }
     
-    return current.textContent || current.innerText || '';
-}
-
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 100);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
-
-function loadFallbackWeapons() {
-    weaponsData = [
-        {
-            id: 'braton-prime',
-            name: 'Braton Prime',
-            category: 'primary',
-            type: 'assault-rifle',
-            mastery: 8,
-            description: 'Versión mejorada del rifle de asalto clásico',
-            stats: { damage: 34, critical_chance: 18, critical_multiplier: 2.4, status_chance: 24 },
-            acquisition: 'Prime Vault/Trading'
+    // Event listeners para cerrar modal con Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('weapon-modal');
+            if (modal && modal.style.display === 'block') {
+                closeWeaponModal();
+            }
         }
-    ];
-    
-    displayWeapons();
-}
+    });
+});
